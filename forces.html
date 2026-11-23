@@ -15,110 +15,120 @@
     }'>
 
     <style>
-        /* 주요전력 카드 그리드 */
-        .fleet-grid-wrap {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-            gap: 1.15rem;
-            margin-bottom: 1.8rem;
-        }
-        .fleet-card {
-            background: #FFF;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 2px 8px rgba(9, 50, 90, 0.04);
-            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
-        }
-        .fleet-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(9, 50, 90, 0.09);
-            border-color: var(--navy-blue);
-        }
-        .fleet-card-head {
-            background: linear-gradient(90deg, var(--navy-dark, #072442) 0%, var(--navy-blue) 100%);
-            color: #FFF;
-            padding: 0.72rem 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 0.5rem;
-        }
-        .fleet-card-head h3 {
-            margin: 0;
-            font-size: 1.02rem;
-            font-weight: 700;
-            letter-spacing: -0.01em;
-        }
-        .fleet-card-cat {
-            font-size: 0.74rem;
-            font-weight: 600;
-            background: rgba(255, 255, 255, 0.16);
-            padding: 0.18rem 0.55rem;
-            border-radius: 4px;
-            white-space: nowrap;
-        }
-        .fleet-card-body {
-            padding: 0.95rem 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 0.55rem;
-            flex: 1;
-        }
-        .ship-row {
-            padding: 0.5rem 0.65rem;
-            background: #F8FAFC;
-            border: 1px solid #E6ECF2;
-            border-radius: 6px;
-        }
-        .ship-row.clickable {
-            background: #F1F6FD;
-            border-color: #C7DBF4;
-            cursor: pointer;
-            transition: background 0.15s ease, border-color 0.15s ease;
-        }
-        .ship-row.clickable:hover {
-            background: #E3EEFC;
-            border-color: var(--navy-blue);
-        }
-        .ship-row-top {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 0.35rem;
-        }
-        .ship-link-name {
-            font-weight: 700;
-            color: var(--navy-blue);
-            font-size: 0.93rem;
-        }
-        .ship-detail-pill {
-            margin-left: auto;
-            font-size: 0.72rem;
-            font-weight: 700;
-            color: #FFF;
-            background: var(--navy-blue);
-            padding: 0.14rem 0.48rem;
-            border-radius: 4px;
-            white-space: nowrap;
-        }
-        .ship-sub-names {
-            margin-top: 0.28rem;
-            font-size: 0.8rem;
-            color: #55606E;
-            line-height: 1.4;
-        }
-        .fleet-card-foot {
-            padding: 0.75rem 1rem;
-            background: var(--light-gray-bg);
-            border-top: 1px solid var(--border-color);
-            font-size: 0.83rem;
-            color: #3E444A;
-            line-height: 1.52;
-        }
+        /* 주요전력 카드 그리드: 1열 대형 직사각형 레이아웃 */
+.fleet-grid-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 1.8rem;
+}
+.fleet-card {
+    width: 100%;
+    background: #FFF;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 8px rgba(9, 50, 90, 0.04);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.fleet-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(9, 50, 90, 0.09);
+    border-color: var(--navy-blue);
+}
+.fleet-card-head {
+    background: linear-gradient(90deg, var(--navy-dark, #072442) 0%, var(--navy-blue) 100%);
+    color: #FFF;
+    padding: 0.8rem 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+.fleet-card-head h3 {
+    margin: 0;
+    font-size: 1.08rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+.fleet-card-cat {
+    font-size: 0.78rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.16);
+    padding: 0.22rem 0.65rem;
+    border-radius: 4px;
+    white-space: nowrap;
+}
 
+/* 대형 직사각형 내부: 함급들을 가로 2~3열로 배치해 세로 스크롤 대폭 축소 */
+.fleet-card-body {
+    padding: 1.1rem 1.2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 0.7rem;
+}
+.ship-row {
+    padding: 0.65rem 0.8rem;
+    background: #F8FAFC;
+    border: 1px solid #E6ECF2;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.ship-row.clickable {
+    background: #F1F6FD;
+    border-color: #C7DBF4;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+.ship-row.clickable:hover {
+    background: #E3EEFC;
+    border-color: var(--navy-blue);
+}
+.ship-row-top {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+}
+.ship-link-name {
+    font-weight: 700;
+    color: var(--navy-blue);
+    font-size: 0.95rem;
+}
+.ship-detail-pill {
+    margin-left: auto;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #FFF;
+    background: var(--navy-blue);
+    padding: 0.16rem 0.5rem;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+.ship-sub-names {
+    margin-top: 0.32rem;
+    font-size: 0.8rem;
+    color: #55606E;
+    line-height: 1.4;
+}
+.fleet-card-foot {
+    padding: 0.75rem 1.2rem;
+    background: var(--light-gray-bg);
+    border-top: 1px solid var(--border-color);
+    font-size: 0.85rem;
+    color: #3E444A;
+    line-height: 1.52;
+}
+
+@media (max-width: 600px) {
+    .fleet-card-body {
+        grid-template-columns: 1fr;
+    }
+}
         /* 모달 사진 프레임: 잘림 없이 원본 비율 전체 표시 + 자연스러운 쇼케이스 배경 */
         .modal-img-frame {
             background: radial-gradient(circle at center, #132F54 0%, #07162B 100%);

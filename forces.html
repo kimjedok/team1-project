@@ -272,10 +272,11 @@
     <div class="section-header"><div class="eng-title">02. Naval Forces</div><h2>전력</h2></div>
 
     <!-- 전력 서브 탭 버튼 -->
-    <div class="hanyang-sub-nav">
-        <button class="hy-sub-btn active" onclick="document.querySelectorAll('#tab-forces .sub-tab-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('#tab-forces .hy-sub-btn').forEach(b=>b.classList.remove('active'));document.getElementById('forces-sub-main').classList.add('active');this.classList.add('active');">주요전력</button>
-        <button class="hy-sub-btn" onclick="document.querySelectorAll('#tab-forces .sub-tab-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('#tab-forces .hy-sub-btn').forEach(b=>b.classList.remove('active'));document.getElementById('forces-sub-nk-compare').classList.add('active');this.classList.add('active');">북한 함정과 비교</button>
-    </div>
+<div class="hanyang-sub-nav">
+    <button class="hy-sub-btn active" onclick="document.querySelectorAll('#tab-forces .sub-tab-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('#tab-forces .hy-sub-btn').forEach(b=>b.classList.remove('active'));document.getElementById('forces-sub-main').classList.add('active');this.classList.add('active');">주요전력</button>
+    <button class="hy-sub-btn" onclick="document.querySelectorAll('#tab-forces .sub-tab-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('#tab-forces .hy-sub-btn').forEach(b=>b.classList.remove('active'));document.getElementById('forces-sub-nk-compare').classList.add('active');this.classList.add('active');">북한 함정과 비교</button>
+    <button class="hy-sub-btn" onclick="document.querySelectorAll('#tab-forces .sub-tab-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('#tab-forces .hy-sub-btn').forEach(b=>b.classList.remove('active'));document.getElementById('forces-sub-simulator').classList.add('active');this.classList.add('active');">교전 시뮬레이터</button>
+</div>
 
     <!-- [서브 탭 1: 주요전력] -->
     <div id="forces-sub-main" class="sub-tab-panel active">
@@ -814,7 +815,7 @@
             </table>
         </div>
 
-        <!-- 3. 하단 핵심 종합 분석 카드 2열 -->
+       <!-- 3. 하단 핵심 종합 분석 카드 2열 -->
         <div class="hy-grid-2">
             <div class="hy-card">
                 <span class="hy-card-tag">ROK NAVY STRENGTH</span>
@@ -825,6 +826,92 @@
                 <span class="hy-card-tag">ASYMMETRIC THREAT RESPONSE</span>
                 <h4>북한의 비대칭 전력과 대비 태세</h4>
                 <p>북한 해군은 동·서해 함대 분리와 노후 수상함 열세를 만회하기 위해 잠수함(SLBM), 공기부양정, 해안포 및 기뢰 등 비대칭 전력에 집중하고 있어, 해군은 대잠전·기뢰대항전·해상미사일방어 역량을 최우선으로 강화하고 있습니다.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- [서브 탭 3: 교전 시뮬레이터] -->
+    <div id="forces-sub-simulator" class="sub-tab-panel">
+        <div id="navalBattleSim" style="background:#FFF;border:1px solid var(--border-color);border-radius:10px;overflow:hidden;box-shadow:0 4px 16px rgba(9,50,90,.06);">
+            <div style="background:linear-gradient(90deg, #071E38 0%, var(--navy-blue) 100%);color:#FFF;padding:1.1rem 1.4rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem;">
+                <div>
+                    <span style="display:inline-block;background:rgba(255,255,255,.18);padding:.18rem .55rem;border-radius:4px;font-size:.74rem;font-weight:700;margin-bottom:.25rem;">TACTICAL ENGAGEMENT SIMULATOR</span>
+                    <h4 style="margin:0;font-size:1.15rem;font-weight:700;">남·북 해군 함정 1:1 전술 교전 시뮬레이터</h4>
+                </div>
+                <span style="font-size:.82rem;color:rgba(255,255,255,.85);">함정 제원·레이더 탐지거리·방어체계 기반 가상 교전 분석</span>
+            </div>
+
+            <div style="padding:1.35rem 1.4rem;">
+                <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:1rem;margin-bottom:1.15rem;">
+                    <div style="background:#F1F6FD;border:1px solid #C7DBF4;border-radius:8px;padding:.9rem;">
+                        <label for="simRokSelect" style="display:block;font-size:.8rem;font-weight:700;color:var(--navy-blue);margin-bottom:.4rem;">🇰🇷 대한민국 해군 함정 선택</label>
+                        <select id="simRokSelect" onchange="var s={jeongjo:'SPY-1D(V) 레이더 · SM-3/SM-6 · 해성 대함유도탄 · CIWS',sejong:'VLS 128셀 · SM-2 · 해성 유도탄 16발 · 골키퍼 CIWS',chungnam:'4면 고정형 MFR 레이더 · 해궁 함대공 · 대함유도탄',yunyoungha:'해성 대함유도탄 4발 · 76mm 함포 · 40노트 고속기동'};document.getElementById('simRokSpec').innerHTML='<strong>무장·센서:</strong> '+s[this.value];document.getElementById('simRunBtn').click();" style="width:100%;padding:.52rem .65rem;border:1px solid #9BBCE6;border-radius:5px;font-size:.9rem;font-weight:700;color:var(--text-dark);background:#FFF;">
+                            <option value="jeongjo">정조대왕급 이지스 구축함 (DDG-II)</option>
+                            <option value="sejong">세종대왕급 이지스 구축함 (DDG-I)</option>
+                            <option value="chungnam">충남급 호위함 (FFG-III)</option>
+                            <option value="yunyoungha">윤영하급 유도탄고속함 (PKG)</option>
+                        </select>
+                        <div id="simRokSpec" style="margin-top:.55rem;font-size:.79rem;color:#3E444A;line-height:1.45;">
+                            <strong>무장·센서:</strong> SPY-1D(V) 레이더 · SM-3/SM-6 · 해성 대함유도탄 · CIWS
+                        </div>
+                    </div>
+
+                    <div style="background:#F8FAFC;border:1px solid #CBD5E1;border-radius:8px;padding:.9rem;">
+                        <label for="simNkSelect" style="display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:.4rem;">북한 해군 함정 선택</label>
+                        <select id="simNkSelect" onchange="var s={amnok:'화살 순항미사일/금성-3 대함미사일 · 100mm 함포 · 구형 레이더',najin:'스틱스(SS-N-2) 구형 대함미사일 · 100mm 함포 · 수동 방공',nongo:'금성-3 대함미사일 4발 · 45노트 고속 · 선체 일부 스텔스 형상',yeono:'533mm 중어뢰 2문 · 연안 저심도 매복 침투 특화'};document.getElementById('simNkSpec').innerHTML='<strong>무장·센서:</strong> '+s[this.value];document.getElementById('simRunBtn').click();" style="width:100%;padding:.52rem .65rem;border:1px solid #CBD5E1;border-radius:5px;font-size:.9rem;font-weight:700;color:var(--text-dark);background:#FFF;">
+                            <option value="amnok">압록급 신형 호위함 (1,500톤급)</option>
+                            <option value="najin">나진급 경비함 (1,500톤급)</option>
+                            <option value="nongo">농어급 스텔스 미사일정 (SES)</option>
+                            <option value="yeono">연어급 소형 잠수정 (130톤급)</option>
+                        </select>
+                        <div id="simNkSpec" style="margin-top:.55rem;font-size:.79rem;color:#475569;line-height:1.45;">
+                            <strong>무장·센서:</strong> 화살 순항미사일/금성-3 대함미사일 · 100mm 함포 · 구형 레이더
+                        </div>
+                    </div>
+
+                    <div style="background:var(--light-gray-bg);border:1px solid var(--border-color);border-radius:8px;padding:.9rem;display:flex;flex-direction:column;justify-content:space-between;">
+                        <div>
+                            <label for="simZoneSelect" style="display:block;font-size:.8rem;font-weight:700;color:var(--navy-blue);margin-bottom:.4rem;">작전 해역 환경</label>
+                            <select id="simZoneSelect" onchange="document.getElementById('simRunBtn').click();" style="width:100%;padding:.52rem .65rem;border:1px solid var(--border-color);border-radius:5px;font-size:.88rem;background:#FFF;">
+                                <option value="open">동해 원해 (장거리 탐지·교전 유리)</option>
+                                <option value="nll">서해 NLL 연안 (도서 지형·근접 기습 변수)</option>
+                                <option value="night">야간·악천후 (레이더·소나 운용 능력 부각)</option>
+                            </select>
+                        </div>
+                        <button id="simRunBtn" type="button" onclick="var u={rok:{jeongjo:{name:'정조대왕급 이지스 구축함',radar:98,fire:96,def:97,asw:92,range:'약 1,000km 동시 탐지'},sejong:{name:'세종대왕급 이지스 구축함',radar:95,fire:95,def:94,asw:90,range:'약 1,000km 동시 탐지'},chungnam:{name:'충남급 호위함 (FFG-III)',radar:86,fire:82,def:84,asw:88,range:'다기능 위상배열 탐지'},yunyoungha:{name:'윤영하급 유도탄고속함',radar:68,fire:74,def:65,asw:35,range:'연안 정밀 사격통제'}},nk:{amnok:{name:'압록급 신형 호위함',radar:45,fire:54,def:38,asw:40},najin:{name:'나진급 경비함',radar:32,fire:42,def:25,asw:30},nongo:{name:'농어급 스텔스 미사일정',radar:40,fire:58,def:28,asw:15},yeono:{name:'연어급 소형 잠수정',radar:25,fire:62,def:35,asw:75}}};var rk=document.getElementById('simRokSelect').value;var nk=document.getElementById('simNkSelect').value;var zn=document.getElementById('simZoneSelect').value;var r=u.rok[rk];var n=u.nk[nk];var bar=function(lb,rv,nv){return '<div style=\'margin-bottom:.55rem;\'><div style=\'display:flex;justify-content:space-between;font-size:.78rem;font-weight:700;margin-bottom:.2rem;\'><span style=\'color:var(--navy-blue);\'>🇰🇷 '+rv+'</span><span style=\'color:#475569;\'>'+lb+'</span><span style=\'color:#64748B;\'>'+nv+' 북한</span></div><div style=\'display:flex;height:8px;border-radius:4px;overflow:hidden;background:#E2E8F0;\'><div style=\'width:'+((rv/(rv+nv))*100)+'%;background:var(--navy-blue);\'></div><div style=\'width:'+((nv/(rv+nv))*100)+'%;background:#94A3B8;\'></div></div></div>';};document.getElementById('simStatBars').innerHTML=bar('레이더·소나 탐지 능력',r.radar,n.radar)+bar('유도탄·함포 타격 화력',r.fire,n.fire)+bar('대공 방어·생존성 (CIWS/방공미사일)',r.def,n.def);var rs=r.radar*0.35+r.fire*0.35+r.def*0.30;var ns=n.radar*0.35+n.fire*0.35+n.def*0.30;if(nk==='yeono'){rs=r.asw*0.6+r.def*0.4;ns=n.asw*0.65+n.fire*0.35;}if(zn==='nll'&&(nk==='nongo'||nk==='yeono'))ns+=10;if(zn==='open')rs+=8;if(zn==='night')rs+=6;var wp=Math.min(99,Math.max(55,Math.round((rs/(rs+ns))*100+18)));var sub=(nk==='yeono');var pkgSub=(rk==='yunyoungha'&&sub);var p1=sub?'[1단계: 수중 탐색] '+r.name+'의 선체고정소나(HMS) 및 대잠 경계 태세 가동 — '+(pkgSub?'고속함 단독 대잠 탐지 한계로 대잠헬기·호위함 합동작전 연계 필요':'수중 이상 음향 신호 포착 및 대잠 작전 돌입'):'[1단계: 조기 탐지] '+r.name+'의 고성능 레이더('+r.range+')가 '+n.name+'을 초수평선 원거리에서 선제 포착';var p2=sub?'[2단계: 대잠·회피 기동] '+n.name+'의 어뢰 위협에 대응해 어뢰음향대항체계(TACM) 가동 및 고속 회피 기동':'[2단계: 선제 정밀 타격] 적 사거리 밖에서 해성 함대함유도탄 발사 → '+n.name+'의 구형 대공방어망 돌파';var p3=sub?'[3단계: 전술 종합 판정] '+(pkgSub?'연안 NLL 환경에서는 고속함(수상 제압) + 호위함·작전헬기(대잠) 입체 전력 운용이 필수적임':'입체 대잠 탐지 및 홍상어·경어뢰 대응 체계로 수중 위협 무력화 우세'):'[3단계: 반격 요격 및 판정] 적 잔존 미사일 발사 시에도 함대공유도탄 및 근접방어무기(CIWS)로 다층 요격 성공 ('+r.name+' 우세 승률 '+wp+'%)';var bx=document.getElementById('simResultBox');bx.style.display='block';bx.innerHTML='<div style=\'display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,.15);padding-bottom:.6rem;margin-bottom:.7rem;gap:.5rem;\'><strong style=\'color:#60A5FA;font-size:.96rem;\'>📊 교전 분석 결과: '+r.name+' vs '+n.name+'</strong><span style=\'background:#1D4ED8;color:#FFF;padding:.2rem .65rem;border-radius:4px;font-size:.78rem;font-weight:700;\'>대한민국 해군 전술 우세도 '+wp+'%</span></div><div style=\'margin-bottom:.4rem;\'>• '+p1+'</div><div style=\'margin-bottom:.4rem;\'>• '+p2+'</div><div>• '+p3+'</div>';" class="btn-primary" style="width:100%;margin-top:.75rem;padding:.6rem;border:none;border-radius:5px;font-weight:700;cursor:pointer;">
+                            ▶ 가상 교전 시뮬레이션 실행
+                        </button>
+                    </div>
+                </div>
+
+                <div id="simStatBars" style="background:#F8FAFC;border:1px solid #E2E8F0;border-radius:8px;padding:.9rem 1.1rem;margin-bottom:1rem;">
+                    <div style="margin-bottom:.55rem;">
+                        <div style="display:flex;justify-content:space-between;font-size:.78rem;font-weight:700;margin-bottom:.2rem;">
+                            <span style="color:var(--navy-blue);">🇰🇷 98</span><span style="color:#475569;">레이더·소나 탐지 능력</span><span style="color:#64748B;">45 북한</span>
+                        </div>
+                        <div style="display:flex;height:8px;border-radius:4px;overflow:hidden;background:#E2E8F0;">
+                            <div style="width:68.5%;background:var(--navy-blue);"></div><div style="width:31.5%;background:#94A3B8;"></div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom:.55rem;">
+                        <div style="display:flex;justify-content:space-between;font-size:.78rem;font-weight:700;margin-bottom:.2rem;">
+                            <span style="color:var(--navy-blue);">🇰🇷 96</span><span style="color:#475569;">유도탄·함포 타격 화력</span><span style="color:#64748B;">54 북한</span>
+                        </div>
+                        <div style="display:flex;height:8px;border-radius:4px;overflow:hidden;background:#E2E8F0;">
+                            <div style="width:64%;background:var(--navy-blue);"></div><div style="width:36%;background:#94A3B8;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display:flex;justify-content:space-between;font-size:.78rem;font-weight:700;margin-bottom:.2rem;">
+                            <span style="color:var(--navy-blue);">🇰🇷 97</span><span style="color:#475569;">대공 방어·생존성 (CIWS/방공미사일)</span><span style="color:#64748B;">38 북한</span>
+                        </div>
+                        <div style="display:flex;height:8px;border-radius:4px;overflow:hidden;background:#E2E8F0;">
+                            <div style="width:71.8%;background:var(--navy-blue);"></div><div style="width:28.2%;background:#94A3B8;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="simResultBox" style="display:none;background:#0B1F3A;color:#F8FAFC;border-radius:8px;padding:1.1rem 1.25rem;font-size:.88rem;line-height:1.65;"></div>
             </div>
         </div>
     </div>
@@ -876,9 +963,3 @@
                     </tbody>
                 </table>
                 <div style="text-align:right;">
-                    <button type="button" onclick="document.getElementById('shipSpecModal').style.display='none'" class="btn-primary" style="border:none;cursor:pointer;padding:.5rem 1.25rem;">닫기</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>

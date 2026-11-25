@@ -6,7 +6,7 @@
     <title>대한민국 해군 소개</title>
     <link rel="icon" type="image/png" href="hanyang_logo.png">
     <style>
-        :root{--bg-white:#FFFFFF;--navy-blue:#0E4A84;--navy-dark:#09325A;--point-gray:#898C8E;--light-gray-bg:#F8F9FA;--border-color:#E2E5E8;--text-dark:#1E2328}
+        :root{--bg-white:#FFFFFF;--navy-blue:#0E4A84;--navy-grad:linear-gradient(135deg,#0E4A84 0%,rgba(14,74,132,.84) 100%);--point-gray:#898C8E;--light-gray-bg:#F8F9FA;--border-color:#E2E5E8;--text-dark:#1E2328}
         *{box-sizing:border-box;margin:0;padding:0}
         html{scrollbar-gutter:stable}
         body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Malgun Gothic',sans-serif;background:var(--bg-white);color:var(--text-dark);line-height:1.6;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
@@ -73,7 +73,7 @@
         .sub-video-card{border:1.5px solid var(--point-gray);border-radius:6px;overflow:hidden;background:#000;box-shadow:0 8px 20px rgba(0,0,0,.25)}
         .home-quick-nav{max-width:860px;margin:2.5rem auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
         .quick-card{display:block;text-decoration:none;background:var(--bg-white);border:1px solid var(--border-color);border-top:3px solid var(--navy-blue);padding:1.25rem;border-radius:4px;text-align:left;cursor:pointer;transition:.2s;font-family:inherit}
-        .quick-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(14,74,132,.1)}
+        .quick-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(14,74,132,.12)}
         .quick-card span{display:block;font-size:.75rem;color:var(--point-gray);font-weight:700;margin-bottom:.25rem}
         .quick-card strong{color:var(--navy-blue);font-size:1.05rem}
 
@@ -81,17 +81,17 @@
         main{flex:1;width:100%}
         .content-container{max-width:1100px;margin:0 auto;padding:3rem 1.5rem 4rem}
         .section-header{border-left:4px solid var(--navy-blue);padding-left:1rem;margin-bottom:2rem}
+        .section-header-flex{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:2rem}
+        .section-header-flex .section-header{margin-bottom:0}
         .section-header .eng-title{color:var(--point-gray);font-size:.85rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
         .section-header h2{color:var(--navy-blue);font-size:1.75rem;font-weight:800}
-        .btn-primary{display:inline-block;background:var(--navy-blue);color:var(--bg-white);padding:.75rem 1.5rem;text-decoration:none;font-weight:600;font-size:.95rem;border-radius:4px;transition:background-color .2s;white-space:nowrap}
-        .btn-primary:hover{background:var(--navy-dark)}
-
-        /* 순수 글자 배경색 하늘색 형광펜 하이라이트 */
+        .btn-primary{display:inline-block;background:var(--navy-blue);color:var(--bg-white);padding:.75rem 1.5rem;text-decoration:none;font-weight:600;font-size:.95rem;border-radius:4px;transition:opacity .2s;white-space:nowrap;border:none;cursor:pointer}
+        .btn-primary:hover{opacity:.9}
         .hl-sky{background-color:#DFF0FF}
 
-        /* 편제 -> 주력부대 */
+        /* 편제 */
         .unit-list{display:flex;flex-direction:column;gap:1rem}
-        .unit-row{background:var(--bg-white);border:1px solid var(--border-color);border-left:5px solid var(--navy-blue);padding:1.5rem 1.75rem;border-radius:4px;display:flex;align-items:center;justify-content:space-between;gap:2.25rem;transition:.2s}
+        .unit-row{background:var(--bg-white);border:1px solid var(--border-color);border-left:5px solid var(--navy-blue);padding:1.5rem 1.75rem;border-radius:4px;display:flex;align-items:flex-start;justify-content:space-between;gap:2.25rem;transition:.2s}
         .unit-row:hover{transform:translateX(4px);box-shadow:0 6px 18px rgba(14,74,132,.08);background:var(--light-gray-bg)}
         .unit-head{min-width:265px;flex-shrink:0;display:flex;flex-direction:column;align-items:flex-start}
         .unit-tag{display:inline-block;font-size:.76rem;color:var(--point-gray);font-weight:700;margin-bottom:.25rem;letter-spacing:.5px}
@@ -99,42 +99,20 @@
         .unit-links{margin-top:.65rem;display:flex;flex-direction:column;align-items:flex-start;gap:.45rem}
         .unit-video-link{display:inline-flex;align-items:center;gap:4px;font-size:.8rem;font-weight:700;color:var(--navy-blue);background:var(--bg-white);border:1px solid var(--navy-blue);padding:.35rem .75rem;border-radius:3px;text-decoration:none;transition:.2s;white-space:nowrap}
         .unit-video-link:hover{background:var(--navy-blue);color:var(--bg-white)}
-        .unit-body{flex:1;font-size:.95rem;color:#3E444A;line-height:1.65}
+        .unit-desc-block{flex:1;font-size:.95rem;color:#3E444A;line-height:1.78;word-break:normal;text-align:justify}
+        .sub-unit-divider{margin-top:1.35rem;padding-top:1.35rem;border-top:1px dashed var(--border-color)}
+        .link-group-gap{margin-top:1.15rem}
 
-        /* 전력 -> 주요전력 */
+        /* 전력 및 공통 카드 */
         .fleet-tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.5rem}
         .filter-btn{background:var(--bg-white);border:1px solid var(--point-gray);color:var(--text-dark);padding:.5rem 1.1rem;font-size:.9rem;font-weight:600;cursor:pointer;border-radius:3px;transition:.2s;font-family:inherit}
         .filter-btn.active,.filter-btn:hover{background:var(--navy-blue);border-color:var(--navy-blue);color:var(--bg-white)}
-        .fleet-cards-wrap{display:flex;flex-direction:column;gap:1.25rem;margin-bottom:1.75rem}
-
-        .ship-class-name{font-weight:700;font-size:.95rem;color:var(--text-dark)}
         .ship-badge{display:inline-block;background:var(--bg-white);border:1px solid var(--point-gray);color:var(--navy-blue);font-size:.76rem;font-weight:700;padding:.1rem .48rem;border-radius:3px;line-height:1.4;text-align:center}
         .ship-badge.upcoming{background:var(--navy-blue);border-color:var(--navy-blue);color:var(--bg-white)}
         .tonnage-tag{color:var(--point-gray);font-size:.8rem;font-weight:600}
 
-        /* 상세제원 클릭 트리거 */
-        .spec-trigger{display:inline-flex;align-items:center;gap:.25rem;background:#EEF4FA;border:1px solid #C8DCF0;color:var(--navy-blue);font-weight:700;font-size:.91rem;padding:.12rem .55rem;border-radius:4px;cursor:pointer;transition:all .18s ease;line-height:1.45}
-        .spec-trigger:hover{background:var(--navy-blue);border-color:var(--navy-blue);color:#FFF;transform:translateY(-1px);box-shadow:0 2px 6px rgba(14,74,132,.2)}
-        .spec-trigger .arrow{font-size:.95rem;font-weight:800;opacity:.85}
-
-        /* 항공병기 기체 줄맞춤 및 여백 확보 */
-        .av-group{display:flex;flex-direction:column;gap:.35rem}
-        .av-row{display:flex;align-items:center}
-        .av-badge-slot{width:108px;flex-shrink:0;display:flex;align-items:center;padding-right:10px}
-        .av-badge-slot .ship-badge{margin-right:0}
-
-        /* 북한 함정 비교 배지 */
-        .cmp-badge{display:inline-block;font-size:.74rem;font-weight:700;padding:.12rem .5rem;border-radius:3px}
-        .cmp-badge.rok{background:var(--navy-blue);color:#FFF}
-        .cmp-badge.nk{background:#E9ECEF;color:#495057}
-
-        /* VR 및 뉴스 배너 */
-        .vr-banner,.news-banner{background:var(--light-gray-bg);border:1px solid var(--border-color);padding:1.65rem;border-radius:4px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1.25rem}
-        .vr-banner{border-left:4px solid var(--navy-blue)}
-        .news-banner{border-left:4px solid var(--point-gray)}
-        .vr-badge{display:inline-block;background:var(--navy-blue);color:var(--bg-white);font-size:.75rem;font-weight:700;padding:.2rem .6rem;border-radius:2px;margin-bottom:.5rem;letter-spacing:.5px}
-        .vr-banner-text h3{color:var(--navy-blue);font-size:1.25rem;margin-bottom:.3rem}
-        .vr-banner-text p,.news-banner-text p{color:#4A5056;font-size:.94rem}
+        .news-banner{background:var(--light-gray-bg);border:1px solid var(--border-color);border-left:4px solid var(--point-gray);padding:1.65rem;border-radius:4px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1.25rem}
+        .news-banner-text p{color:#4A5056;font-size:.94rem}
         .news-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.25rem;margin-bottom:1.5rem}
         .news-card{border:1px solid var(--border-color);padding:1.5rem;border-radius:4px;background:var(--bg-white)}
         .news-meta{font-size:.8rem;color:var(--point-gray);margin-bottom:.5rem;font-weight:600}
@@ -142,7 +120,7 @@
         .news-card p{font-size:.9rem;color:#555}
         .news-banner-text h4{color:var(--navy-blue);font-size:1.1rem;margin-bottom:.25rem}
 
-        /* 공통 서브 탭 내비게이션 (한양해군 & 전력) */
+        /* 공통 서브 탭 내비게이션 */
         .hanyang-sub-nav{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:.5rem;margin:2rem 0 2.5rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border-color)}
         .hy-sub-btn{background:var(--bg-white);border:1px solid var(--border-color);color:var(--text-dark);padding:.65rem 1.45rem;font-size:.95rem;font-weight:700;border-radius:4px;cursor:pointer;transition:.2s;font-family:inherit;white-space:nowrap}
         .hy-sub-btn:hover{border-color:var(--navy-blue);color:var(--navy-blue);background:var(--light-gray-bg)}
@@ -155,7 +133,6 @@
         .hy-box p:last-child{margin-bottom:0}
         .hy-box strong{color:var(--navy-blue);font-weight:700}
 
-        /* 추천의 글 상단 배너 이미지 및 본문 */
         .endorsement-banner-wrap{width:100%;border-radius:6px;overflow:hidden;border:1px solid var(--border-color);margin-bottom:1.75rem;box-shadow:0 8px 24px rgba(14,74,132,.1);background:#768696}
         .endorsement-banner-wrap img{width:100%;height:auto;display:block}
         .endorsement-greeting{font-size:1.1rem;font-weight:700;color:var(--navy-blue);margin-bottom:1.25rem;padding-bottom:.85rem;border-bottom:1px solid var(--border-color)}
@@ -170,7 +147,6 @@
         .hy-card h4{color:var(--navy-blue);font-size:1.15rem;font-weight:800;margin-bottom:.55rem}
         .hy-card p{font-size:.95rem;color:#4A5056;line-height:1.7}
 
-        /* 교과과정 필수/선택 구분 스타일 (필수·선택 모두 회색 네모 통일 및 양쪽 끝 맞춤) */
         .curr-group{margin-top:.85rem}
         .curr-group + .curr-group{margin-top:.9rem;padding-top:.85rem;border-top:1px dashed var(--border-color)}
         .curr-badge{display:inline-block;font-size:.75rem;font-weight:800;padding:.15rem .55rem;border-radius:3px;margin-bottom:.4rem;background:#E9ECEF;color:#495057}
@@ -179,7 +155,6 @@
         .hanyang-videos-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
         .hanyang-video-card{border:1px solid var(--border-color);border-top:3px solid var(--navy-blue);border-radius:6px;overflow:hidden;background:#000;box-shadow:0 6px 18px rgba(14,74,132,.08)}
 
-        /* 푸터 */
         footer{background:var(--bg-white);border-top:1px solid var(--border-color);padding:2rem 1.5rem;text-align:center;color:var(--point-gray);font-size:.9rem}
         footer strong{color:var(--navy-blue)}
 
@@ -193,7 +168,7 @@
             .nav-tab-btn{padding:.5rem .75rem;font-size:.88rem}
             .home-hero h1{font-size:1.9rem}
             .sub-videos-grid,.hanyang-videos-grid,.hy-grid-2{grid-template-columns:1fr}
-            .unit-row{flex-direction:column;align-items:flex-start;gap:.85rem;padding:1.25rem}
+            .unit-row{flex-direction:column;gap:.85rem;padding:1.25rem}
             .unit-head{min-width:auto}
             .hy-sub-btn{padding:.5rem .95rem;font-size:.86rem}
             .hy-box{padding:1.5rem 1.25rem}
@@ -201,7 +176,6 @@
     </style>
 </head>
 <body>
-
     <div id="intro-splash">
         <div class="horizon-curtain top"></div>
         <div class="horizon-curtain bottom"></div>
@@ -233,7 +207,6 @@
     </nav>
 
     <main>
-        <!-- [총괄 담당: 홈] -->
         <section id="tab-home" class="tab-panel active">
             <div class="home-hero">
                 <div class="sub-badge anim-step-1">HANYANG UNIVERSITY</div>
@@ -256,25 +229,21 @@
             </div>
         </section>
 
-        <!-- [팀원 3명 담당 구역: 외부 파일에서 자동 로드] -->
         <section id="tab-organization" class="tab-panel"></section>
         <section id="tab-forces" class="tab-panel"></section>
         <section id="tab-news" class="tab-panel"></section>
 
-        <!-- [총괄 담당: 한양해군] -->
         <section id="tab-hanyang" class="tab-panel">
             <div class="content-container">
                 <div class="section-header"><div class="eng-title">04. Hanyang University - Naval Strategic Technology Engineering</div><h2>한양대학교 해군 계약학과</h2></div>
-
                 <div class="hanyang-sub-nav">
-                    <button class="hy-sub-btn active" data-sub="intro" onclick="openHanyangSubTab('intro',this)">학과소개</button>
-                    <button class="hy-sub-btn" data-sub="curriculum" onclick="openHanyangSubTab('curriculum',this)">교과과정</button>
-                    <button class="hy-sub-btn" data-sub="endorsement" onclick="openHanyangSubTab('endorsement',this)">추천의글</button>
-                    <button class="hy-sub-btn" data-sub="faculty" onclick="openHanyangSubTab('faculty',this)">교수소개</button>
-                    <button class="hy-sub-btn" data-sub="promo" onclick="openHanyangSubTab('promo',this)">홍보영상</button>
+                    <button class="hy-sub-btn active" onclick="switchSubTab('#tab-hanyang','hy-sub-intro',this)">학과소개</button>
+                    <button class="hy-sub-btn" onclick="switchSubTab('#tab-hanyang','hy-sub-curriculum',this)">교과과정</button>
+                    <button class="hy-sub-btn" onclick="switchSubTab('#tab-hanyang','hy-sub-endorsement',this)">추천의글</button>
+                    <button class="hy-sub-btn" onclick="switchSubTab('#tab-hanyang','hy-sub-faculty',this)">교수소개</button>
+                    <button class="hy-sub-btn" onclick="switchSubTab('#tab-hanyang','hy-sub-promo',this)">홍보영상</button>
                 </div>
 
-                <!-- 1. 학과소개 -->
                 <div id="hy-sub-intro" class="sub-tab-panel active">
                     <div class="hy-box">
                         <span class="hy-box-tag">Department Introduction</span>
@@ -285,61 +254,33 @@
                     </div>
                 </div>
 
-                <!-- 2. 교과과정 -->
                 <div id="hy-sub-curriculum" class="sub-tab-panel">
                     <div class="hy-grid-2">
                         <div class="hy-card">
                             <h4>1학년 - 공학 기초 및 해양안보</h4>
-                            <div class="curr-group">
-                                <span class="curr-badge">필수</span>
-                                <div class="curr-list">IC-PBL과비전설계, 미분적분학1, 인공지능기초탐색, 일반물리학1, 일반물리학실험1, 창의적프로그래밍기초와실습, <span class="hl-sky">해전사</span>, 미분적분학2, 수학적사고와인공지능, 아카데믹글쓰기, 오픈소스개발과활용, 일반물리학2, 일반물리학실험2, <span class="hl-sky">해양학개론</span></div>
-                            </div>
-                            <div class="curr-group">
-                                <span class="curr-badge">선택</span>
-                                <div class="curr-list"><span class="hl-sky">기초체력단련</span>, 선형대수</div>
-                            </div>
+                            <div class="curr-group"><span class="curr-badge">필수</span><div class="curr-list">IC-PBL과비전설계, 미분적분학1, 인공지능기초탐색, 일반물리학1, 일반물리학실험1, 창의적프로그래밍기초와실습, <span class="hl-sky">해전사</span>, 미분적분학2, 수학적사고와인공지능, 아카데믹글쓰기, 오픈소스개발과활용, 일반물리학2, 일반물리학실험2, <span class="hl-sky">해양학개론</span></div></div>
+                            <div class="curr-group"><span class="curr-badge">선택</span><div class="curr-list"><span class="hl-sky">기초체력단련</span>, 선형대수</div></div>
                         </div>
                         <div class="hy-card">
                             <h4>2학년 - 공학 심화 및 해양전략</h4>
-                            <div class="curr-group">
-                                <span class="curr-badge">필수</span>
-                                <div class="curr-list">공업수학1, 인공지능심화프로그래밍, 학술영어, <span class="hl-sky">해양전략과국가발전</span>, <span class="hl-sky">항해학개론</span></div>
-                            </div>
-                            <div class="curr-group">
-                                <span class="curr-badge">선택</span>
-                                <div class="curr-list"><span class="hl-sky">골프기초이론및실기1</span>, 전자회로이론및실습, <span class="hl-sky">전투체력단련</span>, 계량경영, 공업수학2, 수중음향공학, <span class="hl-sky">전투태권도</span></div>
-                            </div>
+                            <div class="curr-group"><span class="curr-badge">필수</span><div class="curr-list">공업수학1, 인공지능심화프로그래밍, 학술영어, <span class="hl-sky">해양전략과국가발전</span>, <span class="hl-sky">항해학개론</span></div></div>
+                            <div class="curr-group"><span class="curr-badge">선택</span><div class="curr-list"><span class="hl-sky">골프기초이론및실기1</span>, 전자회로이론및실습, <span class="hl-sky">전투체력단련</span>, 계량경영, 공업수학2, 수중음향공학, <span class="hl-sky">전투태권도</span></div></div>
                         </div>
                         <div class="hy-card">
                             <h4>3학년 - 무기체계 및 국방기술</h4>
-                            <div class="curr-group">
-                                <span class="curr-badge">필수</span>
-                                <div class="curr-list"><span class="hl-sky">해군무기체계공학</span>, <span class="hl-sky">군대윤리</span></div>
-                            </div>
-                            <div class="curr-group">
-                                <span class="curr-badge">선택</span>
-                                <div class="curr-list">수중음향프로그래밍, <span class="hl-sky">전투수영</span>, 컴퓨터네트워크, <span class="hl-sky">해양항만공학</span>, 확률과통계, VR/AR프로그래밍, 디지털신호처리, 음향탐지및신호처리, 표적유도제어</div>
-                            </div>
+                            <div class="curr-group"><span class="curr-badge">필수</span><div class="curr-list"><span class="hl-sky">해군무기체계공학</span>, <span class="hl-sky">군대윤리</span></div></div>
+                            <div class="curr-group"><span class="curr-badge">선택</span><div class="curr-list">수중음향프로그래밍, <span class="hl-sky">전투수영</span>, 컴퓨터네트워크, <span class="hl-sky">해양항만공학</span>, 확률과통계, VR/AR프로그래밍, 디지털신호처리, 음향탐지및신호처리, 표적유도제어</div></div>
                         </div>
                         <div class="hy-card">
                             <h4>4학년 - 대잠체계 및 리더십</h4>
-                            <div class="curr-group">
-                                <span class="curr-badge">필수</span>
-                                <div class="curr-list"><span class="hl-sky">대잠전체계해양환경공학</span>, <span class="hl-sky">대잠전체계음향탐지공학</span>, <span class="hl-sky">리더십</span></div>
-                            </div>
-                            <div class="curr-group">
-                                <span class="curr-badge">선택</span>
-                                <div class="curr-list">소나시스템공학, <span class="hl-sky">정보보안과블록체인</span>, <span class="hl-sky">프로젝트관리</span>, <span class="hl-sky">해군해양학</span>, <span class="hl-sky">국방해양기상학</span>, <span class="hl-sky">글로벌커뮤니케이션전략</span></div>
-                            </div>
+                            <div class="curr-group"><span class="curr-badge">필수</span><div class="curr-list"><span class="hl-sky">대잠전체계해양환경공학</span>, <span class="hl-sky">대잠전체계음향탐지공학</span>, <span class="hl-sky">리더십</span></div></div>
+                            <div class="curr-group"><span class="curr-badge">선택</span><div class="curr-list">소나시스템공학, <span class="hl-sky">정보보안과블록체인</span>, <span class="hl-sky">프로젝트관리</span>, <span class="hl-sky">해군해양학</span>, <span class="hl-sky">국방해양기상학</span>, <span class="hl-sky">글로벌커뮤니케이션전략</span></div></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 3. 추천의글 -->
                 <div id="hy-sub-endorsement" class="sub-tab-panel">
-                    <div class="endorsement-banner-wrap">
-                        <img src="이국종.png" alt="이국종 교수 추천의 글 배너">
-                    </div>
+                    <div class="endorsement-banner-wrap"><img src="이국종.png" alt="이국종 교수 추천의 글 배너"></div>
                     <div class="hy-box">
                         <div class="endorsement-greeting">미래를 준비하는 학생 여러분에게.</div>
                         <p>누구나 대한민국의 역사를 뒤돌아본다면, 한반도에서 살아온 우리 민족의 삶이 쉽지 않았다는 것을 알게 됩니다. 그리고 이러한 어려움들은 그저 수천 년간을 전해져 내려온 과거의 이야기들이 아닌, 현재 국제사회의 역학관계와 같은 거대한 집단과 집단 사이의 난제들일 뿐 아니라, 사회를 구성하는 개인들의 삶 속에까지도 계속 영향을 미치고 있는 소규모 조직들 간에도 상존하고 있는, 우리들 인생의 한 부분이기도 합니다.</p>
@@ -350,30 +291,17 @@
                         <p>따라서 해군에서 양성된 인재들은 해군의 발전을 통한 국방력 강화에 기여했을 뿐 아니라, 대한민국의 발전을 견인해 온 기계공업과 조선산업, 화학 및 정유, 철강산업과 같은 중후장대 산업군에서 헌신하여 왔을 뿐 아니라, 해운업과 수산업을 바탕으로 하는 각종 파생영역들과 해사법 전공영역 및 많은 행정 세부전공은 국제기구와 정부기관에서 핵심인력군을 형성하고 있습니다. 바로 이러한 넓은 업무 영역의 특성을 가지는 <strong>해군간부를 훌륭하게 육성해 내기 위해서 국내 최고의 명문대학인 한양대학교의 폭넓은 학문적 기반과 뛰어난 대학 기반 시설을 바탕으로 본 학과가 운영되고 있습니다.</strong></p>
                         <p>저는 바다를 배경으로 살아가는 사람들이 자신의 인생을 훌륭히 살아내어 가는 과정을 오랜 기간 보아왔으며 저 또한 바로 그 핵심인 해군의 일원인 것을 자랑스럽게 생각합니다. 대한민국의 미래는 바다에 있고, 해군에는 한 개인에게도 수많은 기회가 있음은 누구나 알고 있는 상식일 수도 있습니다. 그러나 해군의 일원이 됨으로서 얻을 수 있는 더 큰 소득은, 인생의 어려움과도 같은 파도를 정면으로 깨고 나아가, 난관을 돌파하며 더 넓은 세계로 나아가는 것을 경험해 가면서 자연스럽게 체득되는 삶의 핵심 가치들일 것입니다.</p>
                         <p>이렇게 오래된 전설과도 같은 해군의 삶은 "은빛 갈매기"와 같은 오래된 여러 해군 군가에도 잘 녹아들어 있으며 나이든 예비역 해군 수병들조차도 잊어버리는 경우가 없습니다. 저는 여러분 모두가 인생의 본격적인 긴 여정을 향해 나아가는 이 순간, 이순신 제독과 손원일 제독이 항해를 했던 바로 그 해군의 바다를 향해, 훌륭한 모항이 되어줄 커다란 한양대학교에서, 함께 닻을 올리고 대양을 향해 나아가는 멋진 미래를 펼쳐 나아가시길 진심으로 기원합니다.</p>
-                        <div class="endorsement-sign">
-                            이국종
-                            <span class="sign-sub">의학박사 · 외과전문의 · 해군예비역<br><span class="sign-navy">명예 해군대령 · 국군대전병원장</span></span>
-                        </div>
+                        <div class="endorsement-sign">이국종<span class="sign-sub">의학박사 · 외과전문의 · 해군예비역<br><span class="sign-navy">명예 해군대령 · 국군대전병원장</span></span></div>
                     </div>
                 </div>
 
-                <!-- 4. 교수소개 -->
                 <div id="hy-sub-faculty" class="sub-tab-panel">
                     <div class="hy-stack">
-                        <div class="hy-card">
-                            <span class="hy-card-tag">FACULTY</span>
-                            <h4>교수진</h4>
-                            <p>한양대학교 공과대학 및 국방과학·해양전략 분야의 최고 수준 전임교원진과 풍부한 함정 지휘 및 작전·전력기획 경험을 갖춘 해군 출신 초빙교수진이 체계적인 학문 지도와 실전적 군사학 교육을 담당합니다.</p>
-                        </div>
-                        <div class="hy-card">
-                            <span class="hy-card-tag">DEFENSE INDUSTRY ADVISORY BOARD</span>
-                            <h4>Defense IAB</h4>
-                            <p>국내외 주요 방위산업체, 국방연구기관 및 해군 전력·기술 분야 핵심 전문가들로 구성된 국방산학자문위원회(Defense IAB)가 첨단 해양무기체계 연구 협력, 현장 실무 멘토링 및 산학연계 교육과정을 자문·지원합니다.</p>
-                        </div>
+                        <div class="hy-card"><span class="hy-card-tag">FACULTY</span><h4>교수진</h4><p>한양대학교 공과대학 및 국방과학·해양전략 분야의 최고 수준 전임교원진과 풍부한 함정 지휘 및 작전·전력기획 경험을 갖춘 해군 출신 초빙교수진이 체계적인 학문 지도와 실전적 군사학 교육을 담당합니다.</p></div>
+                        <div class="hy-card"><span class="hy-card-tag">DEFENSE INDUSTRY ADVISORY BOARD</span><h4>Defense IAB</h4><p>국내외 주요 방위산업체, 국방연구기관 및 해군 전력·기술 분야 핵심 전문가들로 구성된 국방산학자문위원회(Defense IAB)가 첨단 해양무기체계 연구 협력, 현장 실무 멘토링 및 산학연계 교육과정을 자문·지원합니다.</p></div>
                     </div>
                 </div>
 
-                <!-- 5. 홍보영상 -->
                 <div id="hy-sub-promo" class="sub-tab-panel">
                     <div class="hanyang-videos-grid">
                         <div class="hanyang-video-card"><div class="yt-facade" data-video-id="qCJjdYokINs" data-title="한양해군 영상 1"></div></div>
@@ -386,12 +314,9 @@
         </section>
     </main>
 
-    <footer>
-        <p><strong>Hanyang University</strong> | Naval Strategic Technology Engineering 26</p>
-    </footer>
+    <footer><p><strong>Hanyang University</strong> | Naval Strategic Technology Engineering 26</p></footer>
 
     <script>
-        /* 외부 파트 파일(organization.html, forces.html, news.html) 로드 */
         async function loadPartFiles() {
             const parts = [
                 { id: 'tab-organization', file: 'organization.html' },
@@ -409,29 +334,16 @@
         }
 
         function sendYTCommand(iframe, func, args = []) {
-            if (!iframe || !iframe.contentWindow) return;
-            iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args }), '*');
+            if (iframe?.contentWindow) iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args }), '*');
         }
 
         function registerYTListening(iframe) {
-            if (!iframe || !iframe.contentWindow) return;
-            iframe.contentWindow.postMessage(JSON.stringify({ event: 'listening', id: iframe.id }), '*');
+            if (iframe?.contentWindow) iframe.contentWindow.postMessage(JSON.stringify({ event: 'listening', id: iframe.id }), '*');
         }
 
         function renderFacadeThumbnail(box) {
-            const id = box.dataset.videoId;
-            const title = box.dataset.title || 'YouTube Video';
-            box.innerHTML = '';
-
-            const img = document.createElement('img');
-            img.src = `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
-            img.alt = title;
-            img.onload = () => { if (img.naturalWidth <= 120) img.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`; };
-            img.onerror = () => { if (!img.src.includes('hqdefault')) img.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`; };
-
-            const btn = document.createElement('div');
-            btn.className = 'yt-play-btn';
-            box.append(img, btn);
+            const { videoId: id, title = 'YouTube Video' } = box.dataset;
+            box.innerHTML = `<img src="https://i.ytimg.com/vi/${id}/maxresdefault.jpg" alt="${title}" onload="if(this.naturalWidth<=120)this.src='https://i.ytimg.com/vi/${id}/hqdefault.jpg'" onerror="if(!this.src.includes('hqdefault'))this.src='https://i.ytimg.com/vi/${id}/hqdefault.jpg'"><div class="yt-play-btn"></div>`;
         }
 
         function stopAllVideosExcept(activeIframe = null) {
@@ -449,27 +361,17 @@
             try {
                 const d = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
                 const state = d.event === 'onStateChange' ? d.info : d.info?.playerState;
-                if (state === 1) {
-                    document.querySelectorAll('.yt-player').forEach(f => {
-                        if (f.contentWindow === e.source) stopAllVideosExcept(f);
-                    });
-                }
+                if (state === 1) document.querySelectorAll('.yt-player').forEach(f => { if (f.contentWindow === e.source) stopAllVideosExcept(f); });
             } catch {}
         });
 
         function initYouTubePlayers() {
-            setInterval(() => {
-                document.querySelectorAll('.yt-player').forEach(registerYTListening);
-            }, 1500);
-
+            setInterval(() => document.querySelectorAll('.yt-player').forEach(registerYTListening), 1500);
             document.querySelectorAll('.yt-facade').forEach((box, i) => {
                 renderFacadeThumbnail(box);
-
                 box.onclick = () => {
                     if (box.querySelector('iframe')) return;
-                    const id = box.dataset.videoId;
-                    const title = box.dataset.title || 'YouTube Video';
-
+                    const { videoId: id, title = 'YouTube Video' } = box.dataset;
                     const f = document.createElement('iframe');
                     f.className = 'yt-player';
                     f.id = `yt-player-${i}`;
@@ -477,15 +379,12 @@
                     f.title = title;
                     f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
                     f.allowFullscreen = true;
-
                     stopAllVideosExcept(f);
-
                     f.onload = () => {
                         registerYTListening(f);
                         setTimeout(() => registerYTListening(f), 500);
                         setTimeout(() => sendYTCommand(f, 'playVideo'), 5100);
                     };
-
                     box.innerHTML = '';
                     box.appendChild(f);
                 };
@@ -494,34 +393,124 @@
 
         function openTab(name) {
             stopAllVideosExcept();
-            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('tab-' + name).classList.add('active');
+            document.querySelectorAll('.tab-panel,.nav-tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + name)?.classList.add('active');
             document.querySelector(`.nav-tab-btn[data-tab="${name}"]`)?.classList.add('active');
             scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function openHanyangSubTab(subName, btn) {
-            stopAllVideosExcept();
-            document.querySelectorAll('#tab-hanyang .sub-tab-panel').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('#tab-hanyang .hy-sub-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('hy-sub-' + subName).classList.add('active');
-            btn.classList.add('active');
+        function switchSubTab(scopeSel, targetId, btn) {
+            if (scopeSel === '#tab-hanyang') stopAllVideosExcept();
+            document.querySelectorAll(`${scopeSel} .sub-tab-panel, ${scopeSel} .hy-sub-btn`).forEach(el => el.classList.remove('active'));
+            document.getElementById(targetId)?.classList.add('active');
+            btn?.classList.add('active');
         }
 
-        function openForcesSubTab(subName, btn) {
-            document.querySelectorAll('#tab-forces .sub-tab-panel').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('#tab-forces .hy-sub-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('forces-sub-' + subName).classList.add('active');
-            btn.classList.add('active');
-        }
-
+        /* 전력 탭 공통 기능: 검색·필터·상세제원 모달·시뮬레이터 */
         function filterFleet(cat, btn) {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            if (btn) btn.classList.add('active');
-            document.querySelectorAll('#fleetList .fleet-card').forEach(item => {
-                item.style.display = (item.dataset.category === cat) ? '' : 'none';
+            const root = document.querySelector('#tab-forces .content-container');
+            if (!root) return;
+            root.dataset.activeCat = cat;
+            root.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            (btn || root.querySelector(`.filter-btn[data-cat="${cat}"]`))?.classList.add('active');
+            searchFleet();
+        }
+
+        function searchFleet(forceAll = false) {
+            const root = document.querySelector('#tab-forces .content-container');
+            if (!root) return;
+            if (forceAll && (root.dataset.activeCat || 'all') !== 'all') {
+                filterFleet('all');
+                return;
+            }
+            const cat = root.dataset.activeCat || 'all';
+            const kw = (document.getElementById('fleetSearchInput')?.value || '').trim().toLowerCase();
+            let cnt = 0;
+            root.querySelectorAll('#fleetList .fleet-item').forEach(el => {
+                const ok = (cat === 'all' || el.dataset.category === cat) && (!kw || el.textContent.toLowerCase().includes(kw));
+                el.style.display = ok ? '' : 'none';
+                if (ok) cnt++;
             });
+            document.getElementById('fleetResultCount').textContent = `총 ${cnt}개 전력군 표시 중 · 상세제원 뱃지 클릭 시 사진·제원 확인`;
+            document.getElementById('fleetEmptyMsg').style.display = cnt === 0 ? 'block' : 'none';
+        }
+
+        function openShipModal(key) {
+            const root = document.querySelector('#tab-forces .content-container');
+            const d = JSON.parse(root.dataset.shipSpecs)[key];
+            if (!d) return;
+            document.getElementById('modalShipCode').textContent = d.code;
+            document.getElementById('modalShipTitle').textContent = d.title;
+            document.getElementById('modalDisplacement').textContent = d.disp;
+            document.getElementById('modalDimension').textContent = d.dim;
+            document.getElementById('modalSpeed').textContent = d.speed;
+            document.getElementById('modalWeapon').textContent = d.weapon;
+            document.getElementById('modalFeature').textContent = d.feat;
+            const img = document.getElementById('modalShipImg');
+            img.style.objectFit = 'contain';
+            img.style.padding = '0';
+            img.src = d.img;
+            document.getElementById('shipSpecModal').style.display = 'flex';
+        }
+
+        function updateSimSpec(side, val) {
+            const specs = {
+                rok: {
+                    jeongjo: 'SPY-1D(V) 레이더 · SM-3/SM-6 · 해성 대함유도탄 · CIWS',
+                    sejong: 'VLS 128셀 · SM-2 · 해성 유도탄 16발 · 골키퍼 CIWS',
+                    chungnam: '4면 고정형 MFR 레이더 · 해궁 함대공 · 대함유도탄',
+                    yunyoungha: '해성 대함유도탄 4발 · 76mm 함포 · 40노트 고속기동'
+                },
+                nk: {
+                    amnok: '화살 순항미사일/금성-3 대함미사일 · 100mm 함포 · 구형 레이더',
+                    najin: '스틱스(SS-N-2) 구형 대함미사일 · 100mm 함포 · 수동 방공',
+                    nongo: '금성-3 대함미사일 4발 · 45노트 고속 · 선체 일부 스텔스 형상',
+                    yeono: '533mm 중어뢰 2문 · 연안 저심도 매복 침투 특화'
+                }
+            };
+            const targetId = side === 'rok' ? 'simRokSpec' : 'simNkSpec';
+            document.getElementById(targetId).innerHTML = `<strong>무장·센서:</strong> ${specs[side][val]}`;
+            runNavalSim();
+        }
+
+        function runNavalSim() {
+            const u = {
+                rok: {
+                    jeongjo: { name: '정조대왕급 이지스 구축함', radar: 98, fire: 96, def: 97, asw: 92, range: '약 1,000km 동시 탐지' },
+                    sejong: { name: '세종대왕급 이지스 구축함', radar: 95, fire: 95, def: 94, asw: 90, range: '약 1,000km 동시 탐지' },
+                    chungnam: { name: '충남급 호위함 (FFG-III)', radar: 86, fire: 82, def: 84, asw: 88, range: '다기능 위상배열 탐지' },
+                    yunyoungha: { name: '윤영하급 유도탄고속함', radar: 68, fire: 74, def: 65, asw: 35, range: '연안 정밀 사격통제' }
+                },
+                nk: {
+                    amnok: { name: '압록급 신형 호위함', radar: 45, fire: 54, def: 38, asw: 40 },
+                    najin: { name: '나진급 경비함', radar: 32, fire: 42, def: 25, asw: 30 },
+                    nongo: { name: '농어급 스텔스 미사일정', radar: 40, fire: 58, def: 28, asw: 15 },
+                    yeono: { name: '연어급 소형 잠수정', radar: 25, fire: 62, def: 35, asw: 75 }
+                }
+            };
+            const rk = document.getElementById('simRokSelect').value;
+            const nk = document.getElementById('simNkSelect').value;
+            const zn = document.getElementById('simZoneSelect').value;
+            const r = u.rok[rk], n = u.nk[nk];
+            const bar = (lb, rv, nv) => `<div style="margin-bottom:.55rem;"><div style="display:flex;justify-content:space-between;font-size:.78rem;font-weight:700;margin-bottom:.2rem;"><span style="color:var(--navy-blue);">🇰🇷 ${rv}</span><span style="color:#475569;">${lb}</span><span style="color:#64748B;">${nv} 북한</span></div><div style="display:flex;height:8px;border-radius:4px;overflow:hidden;background:#E2E8F0;"><div style="width:${(rv/(rv+nv))*100}%;background:var(--navy-blue);"></div><div style="width:${(nv/(rv+nv))*100}%;background:#94A3B8;"></div></div></div>`;
+            document.getElementById('simStatBars').innerHTML = bar('레이더·소나 탐지 능력', r.radar, n.radar) + bar('유도탄·함포 타격 화력', r.fire, n.fire) + bar('대공 방어·생존성 (CIWS/방공미사일)', r.def, n.def);
+
+            let rs = r.radar * 0.35 + r.fire * 0.35 + r.def * 0.30;
+            let ns = n.radar * 0.35 + n.fire * 0.35 + n.def * 0.30;
+            if (nk === 'yeono') { rs = r.asw * 0.6 + r.def * 0.4; ns = n.asw * 0.65 + n.fire * 0.35; }
+            if (zn === 'nll' && (nk === 'nongo' || nk === 'yeono')) ns += 10;
+            if (zn === 'open') rs += 8;
+            if (zn === 'night') rs += 6;
+            const wp = Math.min(99, Math.max(55, Math.round((rs / (rs + ns)) * 100 + 18)));
+            const sub = nk === 'yeono', pkgSub = rk === 'yunyoungha' && sub;
+
+            const p1 = sub ? `[1단계: 수중 탐색] ${r.name}의 선체고정소나(HMS) 및 대잠 경계 태세 가동 — ${pkgSub ? '고속함 단독 대잠 탐지 한계로 대잠헬기·호위함 합동작전 연계 필요' : '수중 이상 음향 신호 포착 및 대잠 작전 돌입'}` : `[1단계: 조기 탐지] ${r.name}의 고성능 레이더(${r.range})가 ${n.name}을 초수평선 원거리에서 선제 포착`;
+            const p2 = sub ? `[2단계: 대잠·회피 기동] ${n.name}의 어뢰 위협에 대응해 어뢰음향대항체계(TACM) 가동 및 고속 회피 기동` : `[2단계: 선제 정밀 타격] 적 사거리 밖에서 해성 함대함유도탄 발사 → ${n.name}의 구형 대공방어망 돌파`;
+            const p3 = sub ? `[3단계: 전술 종합 판정] ${pkgSub ? '연안 NLL 환경에서는 고속함(수상 제압) + 호위함·작전헬기(대잠) 입체 전력 운용이 필수적임' : '입체 대잠 탐지 및 홍상어·경어뢰 대응 체계로 수중 위협 무력화 우세'}` : `[3단계: 반격 요격 및 판정] 적 잔존 미사일 발사 시에도 함대공유도탄 및 근접방어무기(CIWS)로 다층 요격 성공 (${r.name} 우세 승률 ${wp}%)`;
+
+            const bx = document.getElementById('simResultBox');
+            bx.style.display = 'block';
+            bx.innerHTML = `<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,.22);padding-bottom:.6rem;margin-bottom:.7rem;gap:.5rem;"><strong style="color:#FFF;font-size:.96rem;">📊 교전 분석 결과: ${r.name} vs ${n.name}</strong><span style="background:rgba(255,255,255,.18);color:#FFF;padding:.2rem .65rem;border-radius:4px;font-size:.78rem;font-weight:700;">대한민국 해군 전술 우세도 ${wp}%</span></div><div style="margin-bottom:.4rem;">• ${p1}</div><div style="margin-bottom:.4rem;">• ${p2}</div><div>• ${p3}</div>`;
         }
 
         document.addEventListener('DOMContentLoaded', async () => {

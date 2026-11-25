@@ -420,7 +420,28 @@
                 </div>
             </div>
 
-            <!-- 3. 잠수함 -->
+            <!-- 3. 초계함 -->
+            <div class="fleet-item fleet-card" data-category="frigate">
+                <div class="fleet-card-head">
+                    <h3>초계함</h3>
+                    <span class="fleet-card-cat">연안 초계 전력</span>
+                </div>
+                <div class="fleet-card-body">
+                    <div class="ship-row">
+                        <div class="ship-row-top">
+                            <span class="ship-badge">PCC</span>
+                            <strong>포항급</strong>
+                            <span class="tonnage-tag">(1,220톤 · 24척 건조 / 순차 퇴역 중)</span>
+                        </div>
+                        <div class="ship-sub-names">영주함, 제천함, 속초함, 성남함 등</div>
+                    </div>
+                </div>
+                <div class="fleet-card-foot">
+                    연안 경비 및 대잠 초계 임무를 수행해 온 전력으로, 신형 호위함(인천급·대구급·충남급) 전력화에 따라 임무를 인계하고 있습니다.
+                </div>
+            </div>
+
+            <!-- 4. 잠수함 -->
             <div class="fleet-item fleet-card" data-category="submarine">
                 <div class="fleet-card-head">
                     <h3>잠수함</h3>
@@ -470,44 +491,6 @@
                 </div>
             </div>
 
-            <!-- 4. 항공 전력 -->
-            <div class="fleet-item fleet-card" data-category="aviation">
-                <div class="fleet-card-head">
-                    <h3>항공 전력</h3>
-                    <span class="fleet-card-cat">해군항공사령부</span>
-                </div>
-                <div class="fleet-card-body">
-                    <div class="ship-row clickable" onclick="const d=JSON.parse(this.closest('.content-container').dataset.shipSpecs)['p8a'];document.getElementById('modalShipCode').textContent=d.code;document.getElementById('modalShipTitle').textContent=d.title;document.getElementById('modalDisplacement').textContent=d.disp;document.getElementById('modalDimension').textContent=d.dim;document.getElementById('modalSpeed').textContent=d.speed;document.getElementById('modalWeapon').textContent=d.weapon;document.getElementById('modalFeature').textContent=d.feat;const img=document.getElementById('modalShipImg');img.style.objectFit='contain';img.style.padding='0';img.src=d.img;document.getElementById('shipSpecModal').style.display='flex';">
-                        <div class="ship-row-top">
-                            <span class="ship-badge">해상초계기</span>
-                            <span class="ship-link-name">P-8A 포세이돈</span>
-                            <span class="ship-detail-pill">상세제원 🔍</span>
-                        </div>
-                        <div class="ship-sub-names">함께 운용: P-3C, P-3CK 해상초계기</div>
-                    </div>
-
-                    <div class="ship-row clickable" onclick="const d=JSON.parse(this.closest('.content-container').dataset.shipSpecs)['mh60r'];document.getElementById('modalShipCode').textContent=d.code;document.getElementById('modalShipTitle').textContent=d.title;document.getElementById('modalDisplacement').textContent=d.disp;document.getElementById('modalDimension').textContent=d.dim;document.getElementById('modalSpeed').textContent=d.speed;document.getElementById('modalWeapon').textContent=d.weapon;document.getElementById('modalFeature').textContent=d.feat;const img=document.getElementById('modalShipImg');img.style.objectFit='contain';img.style.padding='0';img.src=d.img;document.getElementById('shipSpecModal').style.display='flex';">
-                        <div class="ship-row-top">
-                            <span class="ship-badge">해상작전헬기</span>
-                            <span class="ship-link-name">MH-60R 시호크</span>
-                            <span class="ship-detail-pill">상세제원 🔍</span>
-                        </div>
-                        <div class="ship-sub-names">함께 운용: AW-159 와일드캣, 슈퍼링스</div>
-                    </div>
-
-                    <div class="ship-row">
-                        <div class="ship-row-top">
-                            <span class="ship-badge">해상기동헬기</span>
-                            <strong>UH-60P</strong>
-                            <span class="tonnage-tag">(상륙·기동 지원)</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="fleet-card-foot">
-                    한반도 주변 해역의 광역 해상 감시·정찰, 입체 대잠수함 작전 및 상륙 기동 지원을 수행하는 해군항공사령부 핵심 항공 전력입니다.
-                </div>
-            </div>
-
             <!-- 5. 상륙함 -->
             <div class="fleet-item fleet-card" data-category="amphibious">
                 <div class="fleet-card-head">
@@ -548,71 +531,7 @@
                 </div>
             </div>
 
-            <!-- 6. 고속함 -->
-            <div class="fleet-item fleet-card" data-category="patrol">
-                <div class="fleet-card-head">
-                    <h3>고속함</h3>
-                    <span class="fleet-card-cat">연안·NLL 핵심</span>
-                </div>
-                <div class="fleet-card-body">
-                    <div class="ship-row clickable" onclick="const d=JSON.parse(this.closest('.content-container').dataset.shipSpecs)['yunyoungha'];document.getElementById('modalShipCode').textContent=d.code;document.getElementById('modalShipTitle').textContent=d.title;document.getElementById('modalDisplacement').textContent=d.disp;document.getElementById('modalDimension').textContent=d.dim;document.getElementById('modalSpeed').textContent=d.speed;document.getElementById('modalWeapon').textContent=d.weapon;document.getElementById('modalFeature').textContent=d.feat;const img=document.getElementById('modalShipImg');img.style.objectFit='contain';img.style.padding='0';img.src=d.img;document.getElementById('shipSpecModal').style.display='flex';">
-                        <div class="ship-row-top">
-                            <span class="ship-badge">PKG</span>
-                            <span class="ship-link-name">윤영하급 유도탄고속함</span>
-                            <span class="tonnage-tag">(570톤 · 18척)</span>
-                            <span class="ship-detail-pill">상세제원 🔍</span>
-                        </div>
-                        <div class="ship-sub-names">윤영하함, 한상국함, 조천형함, 황도현함, 서후원함, 박동혁함 등</div>
-                    </div>
-                </div>
-                <div class="fleet-card-foot">
-                    해성 대함유도탄과 76mm 함포를 탑재해 서해 NLL 최전선에서 40노트의 고속 기동으로 적 고속세력을 정밀 제압합니다.
-                </div>
-            </div>
-
-            <!-- 7. 고속정 -->
-            <div class="fleet-item fleet-card" data-category="patrol">
-                <div class="fleet-card-head">
-                    <h3>고속정</h3>
-                    <span class="fleet-card-cat">즉각 대응 전력</span>
-                </div>
-                <div class="fleet-card-body">
-                    <div class="ship-row">
-                        <div class="ship-row-top">
-                            <span class="ship-badge">PKMR</span>
-                            <strong>참수리급(신형)</strong>
-                            <span class="tonnage-tag">(250톤 · 30여 척 배치)</span>
-                        </div>
-                        <div class="ship-sub-names">참수리-211호정 ~ 230호정대</div>
-                    </div>
-                </div>
-                <div class="fleet-card-foot">
-                    130mm 유도로켓과 원격사격통제체계를 갖추고 연안 경비 및 북방한계선(NLL) 즉각 대응 임무를 수행합니다.
-                </div>
-            </div>
-
-            <!-- 8. 초계함 -->
-            <div class="fleet-item fleet-card" data-category="frigate">
-                <div class="fleet-card-head">
-                    <h3>초계함</h3>
-                    <span class="fleet-card-cat">연안 초계 전력</span>
-                </div>
-                <div class="fleet-card-body">
-                    <div class="ship-row">
-                        <div class="ship-row-top">
-                            <span class="ship-badge">PCC</span>
-                            <strong>포항급</strong>
-                            <span class="tonnage-tag">(1,220톤 · 24척 건조 / 순차 퇴역 중)</span>
-                        </div>
-                        <div class="ship-sub-names">영주함, 제천함, 속초함, 성남함 등</div>
-                    </div>
-                </div>
-                <div class="fleet-card-foot">
-                    연안 경비 및 대잠 초계 임무를 수행해 온 전력으로, 신형 호위함(인천급·대구급·충남급) 전력화에 따라 임무를 인계하고 있습니다.
-                </div>
-            </div>
-
-            <!-- 9. 기뢰전함 -->
+            <!-- 6. 기뢰전함 -->
             <div class="fleet-item fleet-card" data-category="amphibious">
                 <div class="fleet-card-head">
                     <h3>기뢰전함</h3>
@@ -647,7 +566,7 @@
                 </div>
             </div>
 
-            <!-- 10. 지원함 -->
+            <!-- 7. 지원함 -->
             <div class="fleet-item fleet-card" data-category="amphibious">
                 <div class="fleet-card-head">
                     <h3>지원함</h3>
@@ -679,6 +598,87 @@
                 </div>
                 <div class="fleet-card-foot">
                     기동전단의 원해 작전 지속을 위한 군수보급, 조난 함정·잠수함 구조, 사관생도 순항훈련 임무를 담당합니다.
+                </div>
+            </div>
+
+            <!-- 8. 고속함 -->
+            <div class="fleet-item fleet-card" data-category="patrol">
+                <div class="fleet-card-head">
+                    <h3>고속함</h3>
+                    <span class="fleet-card-cat">연안·NLL 핵심</span>
+                </div>
+                <div class="fleet-card-body">
+                    <div class="ship-row clickable" onclick="const d=JSON.parse(this.closest('.content-container').dataset.shipSpecs)['yunyoungha'];document.getElementById('modalShipCode').textContent=d.code;document.getElementById('modalShipTitle').textContent=d.title;document.getElementById('modalDisplacement').textContent=d.disp;document.getElementById('modalDimension').textContent=d.dim;document.getElementById('modalSpeed').textContent=d.speed;document.getElementById('modalWeapon').textContent=d.weapon;document.getElementById('modalFeature').textContent=d.feat;const img=document.getElementById('modalShipImg');img.style.objectFit='contain';img.style.padding='0';img.src=d.img;document.getElementById('shipSpecModal').style.display='flex';">
+                        <div class="ship-row-top">
+                            <span class="ship-badge">PKG</span>
+                            <span class="ship-link-name">윤영하급 유도탄고속함</span>
+                            <span class="tonnage-tag">(570톤 · 18척)</span>
+                            <span class="ship-detail-pill">상세제원 🔍</span>
+                        </div>
+                        <div class="ship-sub-names">윤영하함, 한상국함, 조천형함, 황도현함, 서후원함, 박동혁함 등</div>
+                    </div>
+                </div>
+                <div class="fleet-card-foot">
+                    해성 대함유도탄과 76mm 함포를 탑재해 서해 NLL 최전선에서 40노트의 고속 기동으로 적 고속세력을 정밀 제압합니다.
+                </div>
+            </div>
+
+            <!-- 9. 고속정 -->
+            <div class="fleet-item fleet-card" data-category="patrol">
+                <div class="fleet-card-head">
+                    <h3>고속정</h3>
+                    <span class="fleet-card-cat">즉각 대응 전력</span>
+                </div>
+                <div class="fleet-card-body">
+                    <div class="ship-row">
+                        <div class="ship-row-top">
+                            <span class="ship-badge">PKMR</span>
+                            <strong>참수리급(신형)</strong>
+                            <span class="tonnage-tag">(250톤 · 30여 척 배치)</span>
+                        </div>
+                        <div class="ship-sub-names">참수리-211호정 ~ 230호정대</div>
+                    </div>
+                </div>
+                <div class="fleet-card-foot">
+                    130mm 유도로켓과 원격사격통제체계를 갖추고 연안 경비 및 북방한계선(NLL) 즉각 대응 임무를 수행합니다.
+                </div>
+            </div>
+
+            <!-- 10. 항공 전력 -->
+            <div class="fleet-item fleet-card" data-category="aviation">
+                <div class="fleet-card-head">
+                    <h3>항공 전력</h3>
+                    <span class="fleet-card-cat">해군항공사령부</span>
+                </div>
+                <div class="fleet-card-body">
+                    <div class="ship-row clickable" onclick="const d=JSON.parse(this.closest('.content-container').dataset.shipSpecs)['p8a'];document.getElementById('modalShipCode').textContent=d.code;document.getElementById('modalShipTitle').textContent=d.title;document.getElementById('modalDisplacement').textContent=d.disp;document.getElementById('modalDimension').textContent=d.dim;document.getElementById('modalSpeed').textContent=d.speed;document.getElementById('modalWeapon').textContent=d.weapon;document.getElementById('modalFeature').textContent=d.feat;const img=document.getElementById('modalShipImg');img.style.objectFit='contain';img.style.padding='0';img.src=d.img;document.getElementById('shipSpecModal').style.display='flex';">
+                        <div class="ship-row-top">
+                            <span class="ship-badge">해상초계기</span>
+                            <span class="ship-link-name">P-8A 포세이돈</span>
+                            <span class="ship-detail-pill">상세제원 🔍</span>
+                        </div>
+                        <div class="ship-sub-names">함께 운용: P-3C, P-3CK 해상초계기</div>
+                    </div>
+
+                    <div class="ship-row clickable" onclick="const d=JSON.parse(this.closest('.content-container').dataset.shipSpecs)['mh60r'];document.getElementById('modalShipCode').textContent=d.code;document.getElementById('modalShipTitle').textContent=d.title;document.getElementById('modalDisplacement').textContent=d.disp;document.getElementById('modalDimension').textContent=d.dim;document.getElementById('modalSpeed').textContent=d.speed;document.getElementById('modalWeapon').textContent=d.weapon;document.getElementById('modalFeature').textContent=d.feat;const img=document.getElementById('modalShipImg');img.style.objectFit='contain';img.style.padding='0';img.src=d.img;document.getElementById('shipSpecModal').style.display='flex';">
+                        <div class="ship-row-top">
+                            <span class="ship-badge">해상작전헬기</span>
+                            <span class="ship-link-name">MH-60R 시호크</span>
+                            <span class="ship-detail-pill">상세제원 🔍</span>
+                        </div>
+                        <div class="ship-sub-names">함께 운용: AW-159 와일드캣, 슈퍼링스</div>
+                    </div>
+
+                    <div class="ship-row">
+                        <div class="ship-row-top">
+                            <span class="ship-badge">해상기동헬기</span>
+                            <strong>UH-60P</strong>
+                            <span class="tonnage-tag">(상륙·기동 지원)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="fleet-card-foot">
+                    한반도 주변 해역의 광역 해상 감시·정찰, 입체 대잠수함 작전 및 상륙 기동 지원을 수행하는 해군항공사령부 핵심 항공 전력입니다.
                 </div>
             </div>
 
@@ -963,3 +963,10 @@
                     </tbody>
                 </table>
                 <div style="text-align:right;">
+                    <button type="button" onclick="document.getElementById('shipSpecModal').style.display='none'" class="btn-primary" style="padding:.48rem 1.2rem;border:none;border-radius:5px;font-weight:700;cursor:pointer;">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

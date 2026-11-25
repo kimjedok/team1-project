@@ -72,7 +72,7 @@
         .sub-videos-grid{max-width:860px;margin:1.25rem auto 0;display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem}
         .sub-video-card{border:1.5px solid var(--point-gray);border-radius:6px;overflow:hidden;background:#000;box-shadow:0 8px 20px rgba(0,0,0,.25)}
         .home-quick-nav{max-width:860px;margin:2.5rem auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
-        .quick-card{background:var(--bg-white);border:1px solid var(--border-color);border-top:3px solid var(--navy-blue);padding:1.25rem;border-radius:4px;text-align:left;cursor:pointer;transition:.2s;font-family:inherit}
+        .quick-card{display:block;text-decoration:none;background:var(--bg-white);border:1px solid var(--border-color);border-top:3px solid var(--navy-blue);padding:1.25rem;border-radius:4px;text-align:left;cursor:pointer;transition:.2s;font-family:inherit}
         .quick-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(14,74,132,.1)}
         .quick-card span{display:block;font-size:.75rem;color:var(--point-gray);font-weight:700;margin-bottom:.25rem}
         .quick-card strong{color:var(--navy-blue);font-size:1.05rem}
@@ -160,7 +160,8 @@
         .endorsement-banner-wrap img{width:100%;height:auto;display:block}
         .endorsement-greeting{font-size:1.1rem;font-weight:700;color:var(--navy-blue);margin-bottom:1.25rem;padding-bottom:.85rem;border-bottom:1px solid var(--border-color)}
         .endorsement-sign{margin-top:1.75rem;padding-top:1.25rem;border-top:1px solid var(--border-color);text-align:right;font-size:.96rem;color:var(--navy-blue);font-weight:700}
-        .endorsement-sign span{display:block;font-size:.85rem;color:var(--point-gray);font-weight:500;margin-top:.25rem;line-height:1.55}
+        .endorsement-sign .sign-sub{display:block;font-size:.85rem;color:var(--point-gray);font-weight:500;margin-top:.25rem;line-height:1.6}
+        .endorsement-sign .sign-navy{color:var(--navy-blue);font-weight:700}
 
         .hy-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem}
         .hy-stack{display:flex;flex-direction:column;gap:1.25rem}
@@ -248,9 +249,9 @@
             </div>
             <div class="content-container" style="padding-top:1rem">
                 <div class="home-quick-nav anim-step-5">
-                    <button class="quick-card" onclick="openTab('organization')"><span>01. ORGANIZATION</span><strong>편제 (주력부대) →</strong></button>
-                    <button class="quick-card" onclick="openTab('forces')"><span>02. NAVAL FORCES</span><strong>전력 · 이지스함 VR →</strong></button>
-                    <button class="quick-card" onclick="openTab('news')"><span>03. NAVY NEWS</span><strong>해군 관련 뉴스 →</strong></button>
+                    <a class="quick-card" href="https://portal.hanyang.ac.kr/sso/lgin.do" target="_blank" rel="noopener noreferrer"><span>01. HY-IN PORTAL</span><strong>한양인 포털 ↗</strong></a>
+                    <a class="quick-card" href="https://learning.hanyang.ac.kr/accounts/1/external_tools/128?launch_type=global_navigation" target="_blank" rel="noopener noreferrer"><span>02. HANYANG LMS</span><strong>한양대학교 LMS ↗</strong></a>
+                    <a class="quick-card" href="https://www.youtube.com/@ROKNavy" target="_blank" rel="noopener noreferrer"><span>03. R.O.K. NAVY YOUTUBE</span><strong>대한민국 해군 유튜브 ↗</strong></a>
                 </div>
             </div>
         </section>
@@ -351,7 +352,7 @@
                         <p>이렇게 오래된 전설과도 같은 해군의 삶은 "은빛 갈매기"와 같은 오래된 여러 해군 군가에도 잘 녹아들어 있으며 나이든 예비역 해군 수병들조차도 잊어버리는 경우가 없습니다. 저는 여러분 모두가 인생의 본격적인 긴 여정을 향해 나아가는 이 순간, 이순신 제독과 손원일 제독이 항해를 했던 바로 그 해군의 바다를 향해, 훌륭한 모항이 되어줄 커다란 한양대학교에서, 함께 닻을 올리고 대양을 향해 나아가는 멋진 미래를 펼쳐 나아가시길 진심으로 기원합니다.</p>
                         <div class="endorsement-sign">
                             이국종
-                            <span>의학박사 · 외과전문의 · 해군예비역<br>명예 해군대령 · 국군대전병원장</span>
+                            <span class="sign-sub">의학박사 · 외과전문의 · 해군예비역<br><span class="sign-navy">명예 해군대령 · 국군대전병원장</span></span>
                         </div>
                     </div>
                 </div>

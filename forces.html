@@ -910,16 +910,51 @@
 
     <!-- [서브 탭 4: VR체험] -->
     <div id="forces-sub-vr" class="sub-tab-panel">
-        <div class="vr-banner">
+        <!-- 1. 메인 VR 실행 배너 -->
+        <div class="vr-banner" style="margin-bottom:1.5rem;">
             <div class="vr-banner-text">
                 <span class="vr-badge">360° VR EXPERIENCE</span>
                 <h3>대한민국 해군 이지스함 VR로 살펴보기</h3>
-                <p>해군 공식 VR 콘텐츠를 통해 이지스 구축함의 함교, 전투지휘실 및 주요 구역을 360도 가상현실로 생생하게 체험해 보세요.</p>
+                <p>해군 공식 360도 가상현실 콘텐츠를 통해 이지스 구축함의 함교, 전투지휘실 및 주요 작전 구역을 직접 이동하며 생생하게 체험해 보세요.</p>
             </div>
             <a href="https://www.navy.mil.kr/mbshome/mbs/navy/vr/vr/index.html" target="_blank" rel="noopener noreferrer" class="btn-primary">이지스함 VR 체험하기 ↗</a>
         </div>
-    </div>
 
+        <!-- 2. VR 체험 주요 관람 포인트 3단 안내 -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:1rem;margin-bottom:1.5rem;">
+            <div class="hy-card" style="margin:0;">
+                <span class="hy-card-tag">ZONE 01 · BRIDGE</span>
+                <h4>함교 (조타실)</h4>
+                <p>함정의 항해와 기동을 지휘하는 최고 지휘소로, 조타 장치와 전방 해역 관측 창을 통해 함장의 시야를 체험할 수 있습니다.</p>
+            </div>
+            <div class="hy-card" style="margin:0;">
+                <span class="hy-card-tag">ZONE 02 · CIC</span>
+                <h4>전투정보실 (Combat Information Center)</h4>
+                <p>이지스 레이더(SPY-1D)와 소나로 수집된 대공·대함·대잠 표적 정보를 통합 분석하고 무장을 통제하는 함정의 두뇌 구역입니다.</p>
+            </div>
+            <div class="hy-card" style="margin:0;">
+                <span class="hy-card-tag">ZONE 03 · DECK &amp; VLS</span>
+                <h4>함수 갑판 및 수직발사체계</h4>
+                <p>5인치 주포와 한국형·미제 수직발사관(VLS), 근접방어무기체계(CIWS)가 배치된 외부 갑판의 압도적 규모를 확인할 수 있습니다.</p>
+            </div>
+        </div>
+
+        <!-- 3. 360° VR 조작 방법 및 관람 팁 -->
+        <div class="hy-grid-2">
+            <div class="hy-card">
+                <span class="hy-card-tag">HOW TO USE</span>
+                <h4>360° VR 조작 가이드</h4>
+                <p><strong>• 시점 회전:</strong> 마우스 드래그(PC) 또는 화면 터치 슬라이드(모바일)로 상하좌우 360도 전 방향을 둘러볼 수 있습니다.<br>
+                <strong>• 구역 이동:</strong> 화면 내 표시되는 화살표 아이콘이나 하단 구역 메뉴를 클릭하면 함정 내부 격실 간 즉시 이동이 가능합니다.</p>
+            </div>
+            <div class="hy-card">
+                <span class="hy-card-tag">RECOMMENDED ENV</span>
+                <h4>원활한 체험을 위한 권장 환경</h4>
+                <p><strong>• 권장 브라우저:</strong> Chrome, Edge, Safari 최신 버전 (새 창에서 해군 공식 VR 뷰어 실행)<br>
+                <strong>• 네트워크:</strong> 고해상도 360도 파노라마 이미지 로딩을 위해 안정적인 Wi-Fi 또는 유선 인터넷 환경을 권장합니다.</p>
+            </div>
+        </div>
+    </div>
     <!-- [상세 제원 & 사진 팝업 모달창] -->
     <div id="shipSpecModal" onclick="if(event.target===this) this.style.display='none'"
         style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(9,50,90,.68);align-items:center;justify-content:center;padding:1rem;">

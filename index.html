@@ -492,7 +492,7 @@
             const nk = document.getElementById('simNkSelect').value;
             const zn = document.getElementById('simZoneSelect').value;
             const r = u.rok[rk], n = u.nk[nk];
-            const bar = (lb, rv, nv) => `<div style="margin-bottom:.55rem;"><div style="display:flex;justify-content:space-between;font-size:.78rem;font-weight:700;margin-bottom:.2rem;"><span style="color:var(--navy-blue);">🇰🇷 ${rv}</span><span style="color:#475569;">${lb}</span><span style="color:#64748B;">${nv} 북한</span></div><div style="display:flex;height:8px;border-radius:4px;overflow:hidden;background:#E2E8F0;"><div style="width:${(rv/(rv+nv))*100}%;background:var(--navy-blue);"></div><div style="width:${(nv/(rv+nv))*100}%;background:#94A3B8;"></div></div></div>`;
+            const bar = (lb, rv, nv) => `<div style="margin-bottom:.55rem;"><div style="display:flex;justify-content:space-between;font-size:.78rem;font-weight:700;margin-bottom:.2rem;"><span style="color:var(--navy-blue);">한국 ${rv}</span><span style="color:#475569;">${lb}</span><span style="color:#64748B;">${nv} 북한</span></div><div style="display:flex;height:8px;border-radius:4px;overflow:hidden;background:#E2E8F0;"><div style="width:${(rv/(rv+nv))*100}%;background:var(--navy-blue);"></div><div style="width:${(nv/(rv+nv))*100}%;background:#94A3B8;"></div></div></div>`;
             document.getElementById('simStatBars').innerHTML = bar('레이더·소나 탐지 능력', r.radar, n.radar) + bar('유도탄·함포 타격 화력', r.fire, n.fire) + bar('대공 방어·생존성 (CIWS/방공미사일)', r.def, n.def);
 
             let rs = r.radar * 0.35 + r.fire * 0.35 + r.def * 0.30;

@@ -1,533 +1,131 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>대한민국 해군 소개</title>
-    <link rel="icon" type="image/png" href="hanyang_logo.png">
+<div class="content-container">
     <style>
-        :root{--bg-white:#FFFFFF;--navy-blue:#0E4A84;--navy-dark:#09325A;--point-gray:#898C8E;--light-gray-bg:#F8F9FA;--border-color:#E2E5E8;--text-dark:#1E2328}
-        *{box-sizing:border-box;margin:0;padding:0}
-        html{scrollbar-gutter:stable}
-        body{font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Malgun Gothic',sans-serif;background:var(--bg-white);color:var(--text-dark);line-height:1.6;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
-
-        /* 인트로 스플래시 */
-        #intro-splash{position:fixed;inset:0;z-index:9999;pointer-events:none;display:flex;align-items:center;justify-content:center;animation:splashCleanup .1s linear 2.95s forwards}
-        .horizon-curtain{position:fixed;left:0;right:0;height:50%;background:#FFF;z-index:1}
-        .horizon-curtain.top{top:0;animation:curtainOpenTop .8s ease-out 2.1s forwards}
-        .horizon-curtain.bottom{bottom:0;animation:curtainOpenBottom .8s ease-out 2.1s forwards}
-        .splash-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:contentFadeOut .35s ease-out 1.85s forwards}
-        .upper-logo-stage{display:flex;align-items:center;justify-content:center;gap:2.5rem;margin-bottom:1.6rem}
-        .logo-wing{overflow:hidden;display:flex;align-items:center;justify-content:center}
-        .logo-wing img{width:118px;height:118px;object-fit:contain;display:block;opacity:0}
-        .logo-wing.left img{transform:translateX(36px);animation:wingSlide .75s ease-out .2s forwards}
-        .logo-wing.right img{transform:translateX(-36px);animation:wingSlide .75s ease-out .2s forwards}
-        .lower-title-stage{text-align:center;opacity:0;transform:translateY(10px);animation:titleFadeUp .75s ease-out .65s forwards}
-        .kor-main-title{font-size:1.85rem;font-weight:800;color:var(--navy-blue);letter-spacing:2px;margin-bottom:.35rem}
-        .eng-sub-title{font-size:1.05rem;font-weight:700;color:var(--point-gray);letter-spacing:2.2px;white-space:nowrap}
-
-        @keyframes wingSlide{to{opacity:1;transform:translateX(0)}}
-        @keyframes titleFadeUp{to{opacity:1;transform:translateY(0)}}
-        @keyframes contentFadeOut{to{opacity:0}}
-        @keyframes curtainOpenTop{to{transform:translateY(-100%)}}
-        @keyframes curtainOpenBottom{to{transform:translateY(100%)}}
-        @keyframes splashCleanup{to{visibility:hidden}}
-        @keyframes heroReveal{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-
-        .anim-step-1{opacity:0;animation:heroReveal .65s ease-out 2.2s forwards}
-        .anim-step-2{opacity:0;animation:heroReveal .65s ease-out 2.35s forwards}
-        .anim-step-3{opacity:0;animation:heroReveal .65s ease-out 2.5s forwards}
-        .anim-step-4{opacity:0;animation:heroReveal .7s ease-out 2.65s forwards}
-        .anim-step-5{opacity:0;animation:heroReveal .7s ease-out 2.8s forwards}
-
-        /* 상단 내비게이션 */
-        nav{position:sticky;top:0;z-index:100;background:var(--bg-white);border-bottom:1px solid var(--border-color);padding:0 2rem;display:flex;justify-content:space-between;align-items:center;height:68px;width:100%}
-        .logo{font-size:1.25rem;font-weight:800;color:var(--navy-blue);letter-spacing:-.5px;background:none;border:none;cursor:pointer;display:flex;align-items:center;gap:.45rem;white-space:nowrap;flex-shrink:0}
-        .logo img{width:28px;height:28px;object-fit:contain}
-        .nav-tabs{display:flex;gap:.5rem;list-style:none;height:100%;flex-shrink:0}
-        .nav-tab-btn{background:none;border:none;border-bottom:3px solid transparent;color:var(--text-dark);font-weight:600;font-size:.95rem;padding:0 1.2rem;height:100%;cursor:pointer;transition:.2s;font-family:inherit;white-space:nowrap}
-        .nav-tab-btn.hanyang-tab{color:var(--point-gray)}
-        .nav-tab-btn:hover{color:var(--navy-blue);background:var(--light-gray-bg)}
-        .nav-tab-btn.active{color:var(--navy-blue);border-bottom-color:var(--navy-blue);font-weight:800}
-
-        .tab-panel,.sub-tab-panel{display:none}
-        .tab-panel.active,.sub-tab-panel.active{display:block;animation:simpleOpacity .2s ease-out}
-        @keyframes simpleOpacity{from{opacity:0}to{opacity:1}}
-
-        /* 유튜브 고화질 플레이어 */
-        .yt-facade{position:relative;width:100%;aspect-ratio:16/9;background:#000;overflow:hidden;cursor:pointer}
-        .yt-facade img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .3s ease,filter .3s ease}
-        .yt-facade:hover img{transform:scale(1.02);filter:brightness(.92)}
-        .yt-facade iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-        .yt-play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:54px;height:38px;background:rgba(14,74,132,.9);border:1.5px solid rgba(255,255,255,.85);border-radius:10px;display:flex;align-items:center;justify-content:center;transition:.2s;box-shadow:0 4px 16px rgba(0,0,0,.45)}
-        .yt-facade:hover .yt-play-btn{background:#F00;border-color:#F00;transform:translate(-50%,-50%) scale(1.06)}
-        .yt-play-btn::after{content:'';border-style:solid;border-width:8px 0 8px 14px;border-color:transparent transparent transparent #FFF;margin-left:3px}
-
-        /* 홈 히어로 */
-        .home-hero{background:var(--navy-blue);color:var(--bg-white);padding:3.5rem 1.5rem 4rem;text-align:center;border-bottom:4px solid var(--point-gray)}
-        .home-hero .sub-badge{display:inline-block;border:1px solid var(--point-gray);padding:.25rem .9rem;font-size:.8rem;letter-spacing:2px;margin-bottom:1rem;border-radius:2px}
-        .home-hero h1{font-size:2.75rem;font-weight:800;margin-bottom:.75rem;letter-spacing:-.5px}
-        .home-hero p{max-width:650px;margin:0 auto 2.25rem;font-size:1.05rem;color:rgba(255,255,255,.88)}
-        .hero-video-wrap{max-width:860px;margin:0 auto;border:2px solid var(--point-gray);border-radius:6px;overflow:hidden;box-shadow:0 16px 36px rgba(0,0,0,.35);background:#000}
-        .sub-videos-grid{max-width:860px;margin:1.25rem auto 0;display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem}
-        .sub-video-card{border:1.5px solid var(--point-gray);border-radius:6px;overflow:hidden;background:#000;box-shadow:0 8px 20px rgba(0,0,0,.25)}
-        .home-quick-nav{max-width:860px;margin:2.5rem auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem}
-        .quick-card{display:block;text-decoration:none;background:var(--bg-white);border:1px solid var(--border-color);border-top:3px solid var(--navy-blue);padding:1.25rem;border-radius:4px;text-align:left;cursor:pointer;transition:.2s;font-family:inherit}
-        .quick-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(14,74,132,.1)}
-        .quick-card span{display:block;font-size:.75rem;color:var(--point-gray);font-weight:700;margin-bottom:.25rem}
-        .quick-card strong{color:var(--navy-blue);font-size:1.05rem}
-
-        /* 공통 레이아웃 */
-        main{flex:1;width:100%}
-        .content-container{max-width:1100px;margin:0 auto;padding:3rem 1.5rem 4rem}
-        .section-header{border-left:4px solid var(--navy-blue);padding-left:1rem;margin-bottom:2rem}
-        .section-header .eng-title{color:var(--point-gray);font-size:.85rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
-        .section-header h2{color:var(--navy-blue);font-size:1.75rem;font-weight:800}
-        .btn-primary{display:inline-block;background:var(--navy-blue);color:var(--bg-white);padding:.75rem 1.5rem;text-decoration:none;font-weight:600;font-size:.95rem;border-radius:4px;transition:background-color .2s;white-space:nowrap}
-        .btn-primary:hover{background:var(--navy-dark)}
-
-        /* 순수 글자 배경색 하늘색 형광펜 하이라이트 */
+        /* 박스 형태가 아닌 순수 글자 배경색만 변경하는 하늘색 하이라이트 */
         .hl-sky{background-color:#DFF0FF}
-
-        /* 편제 -> 주력부대 */
-        .unit-list{display:flex;flex-direction:column;gap:1rem}
-        .unit-row{background:var(--bg-white);border:1px solid var(--border-color);border-left:5px solid var(--navy-blue);padding:1.5rem 1.75rem;border-radius:4px;display:flex;align-items:center;justify-content:space-between;gap:2.25rem;transition:.2s}
-        .unit-row:hover{transform:translateX(4px);box-shadow:0 6px 18px rgba(14,74,132,.08);background:var(--light-gray-bg)}
-        .unit-head{min-width:265px;flex-shrink:0;display:flex;flex-direction:column;align-items:flex-start}
-        .unit-tag{display:inline-block;font-size:.76rem;color:var(--point-gray);font-weight:700;margin-bottom:.25rem;letter-spacing:.5px}
-        .unit-head h3{color:var(--navy-blue);font-size:1.22rem;font-weight:800}
-        .unit-links{margin-top:.65rem;display:flex;flex-direction:column;align-items:flex-start;gap:.45rem}
-        .unit-video-link{display:inline-flex;align-items:center;gap:4px;font-size:.8rem;font-weight:700;color:var(--navy-blue);background:var(--bg-white);border:1px solid var(--navy-blue);padding:.35rem .75rem;border-radius:3px;text-decoration:none;transition:.2s;white-space:nowrap}
-        .unit-video-link:hover{background:var(--navy-blue);color:var(--bg-white)}
-        .unit-body{flex:1;font-size:.95rem;color:#3E444A;line-height:1.65}
-
-        /* 전력 -> 주요전력 */
-        .fleet-tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.5rem}
-        .filter-btn{background:var(--bg-white);border:1px solid var(--point-gray);color:var(--text-dark);padding:.5rem 1.1rem;font-size:.9rem;font-weight:600;cursor:pointer;border-radius:3px;transition:.2s;font-family:inherit}
-        .filter-btn.active,.filter-btn:hover{background:var(--navy-blue);border-color:var(--navy-blue);color:var(--bg-white)}
-        .fleet-cards-wrap{display:flex;flex-direction:column;gap:1.25rem;margin-bottom:1.75rem}
-
-        .ship-class-name{font-weight:700;font-size:.95rem;color:var(--text-dark)}
-        .ship-badge{display:inline-block;background:var(--bg-white);border:1px solid var(--point-gray);color:var(--navy-blue);font-size:.76rem;font-weight:700;padding:.1rem .48rem;border-radius:3px;line-height:1.4;text-align:center}
-        .ship-badge.upcoming{background:var(--navy-blue);border-color:var(--navy-blue);color:var(--bg-white)}
-        .tonnage-tag{color:var(--point-gray);font-size:.8rem;font-weight:600}
-
-        /* 상세제원 클릭 트리거 */
-        .spec-trigger{display:inline-flex;align-items:center;gap:.25rem;background:#EEF4FA;border:1px solid #C8DCF0;color:var(--navy-blue);font-weight:700;font-size:.91rem;padding:.12rem .55rem;border-radius:4px;cursor:pointer;transition:all .18s ease;line-height:1.45}
-        .spec-trigger:hover{background:var(--navy-blue);border-color:var(--navy-blue);color:#FFF;transform:translateY(-1px);box-shadow:0 2px 6px rgba(14,74,132,.2)}
-        .spec-trigger .arrow{font-size:.95rem;font-weight:800;opacity:.85}
-
-        /* 항공병기 기체 줄맞춤 및 여백 확보 */
-        .av-group{display:flex;flex-direction:column;gap:.35rem}
-        .av-row{display:flex;align-items:center}
-        .av-badge-slot{width:108px;flex-shrink:0;display:flex;align-items:center;padding-right:10px}
-        .av-badge-slot .ship-badge{margin-right:0}
-
-        /* 북한 함정 비교 배지 */
-        .cmp-badge{display:inline-block;font-size:.74rem;font-weight:700;padding:.12rem .5rem;border-radius:3px}
-        .cmp-badge.rok{background:var(--navy-blue);color:#FFF}
-        .cmp-badge.nk{background:#E9ECEF;color:#495057}
-
-        /* VR 및 뉴스 배너 */
-        .vr-banner,.news-banner{background:var(--light-gray-bg);border:1px solid var(--border-color);padding:1.65rem;border-radius:4px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:1.25rem}
-        .vr-banner{border-left:4px solid var(--navy-blue)}
-        .news-banner{border-left:4px solid var(--point-gray)}
-        .vr-badge{display:inline-block;background:var(--navy-blue);color:var(--bg-white);font-size:.75rem;font-weight:700;padding:.2rem .6rem;border-radius:2px;margin-bottom:.5rem;letter-spacing:.5px}
-        .vr-banner-text h3{color:var(--navy-blue);font-size:1.25rem;margin-bottom:.3rem}
-        .vr-banner-text p,.news-banner-text p{color:#4A5056;font-size:.94rem}
-        .news-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.25rem;margin-bottom:1.5rem}
-        .news-card{border:1px solid var(--border-color);padding:1.5rem;border-radius:4px;background:var(--bg-white)}
-        .news-meta{font-size:.8rem;color:var(--point-gray);margin-bottom:.5rem;font-weight:600}
-        .news-card h3{font-size:1.08rem;margin-bottom:.75rem;line-height:1.4}
-        .news-card p{font-size:.9rem;color:#555}
-        .news-banner-text h4{color:var(--navy-blue);font-size:1.1rem;margin-bottom:.25rem}
-
-        /* 공통 서브 탭 내비게이션 (한양해군 & 전력) */
-        .hanyang-sub-nav{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:.5rem;margin:2rem 0 2.5rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border-color)}
-        .hy-sub-btn{background:var(--bg-white);border:1px solid var(--border-color);color:var(--text-dark);padding:.65rem 1.45rem;font-size:.95rem;font-weight:700;border-radius:4px;cursor:pointer;transition:.2s;font-family:inherit;white-space:nowrap}
-        .hy-sub-btn:hover{border-color:var(--navy-blue);color:var(--navy-blue);background:var(--light-gray-bg)}
-        .hy-sub-btn.active{background:var(--navy-blue);border-color:var(--navy-blue);color:var(--bg-white);box-shadow:0 4px 12px rgba(14,74,132,.18)}
-
-        .hy-box{background:var(--bg-white);border:1px solid var(--border-color);border-top:3px solid var(--navy-blue);padding:2.25rem 2.5rem;border-radius:4px}
-        .hy-box-tag{display:inline-block;font-size:.78rem;font-weight:700;color:var(--point-gray);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:.35rem}
-        .hy-box h3{color:var(--navy-blue);font-size:1.45rem;font-weight:800;margin-bottom:1.25rem}
-        .hy-box p{color:#3E444A;font-size:.98rem;line-height:1.85;margin-bottom:1.15rem;word-break:keep-all}
-        .hy-box p:last-child{margin-bottom:0}
-        .hy-box strong{color:var(--navy-blue);font-weight:700}
-
-        /* 추천의 글 상단 배너 이미지 및 본문 */
-        .endorsement-banner-wrap{width:100%;border-radius:6px;overflow:hidden;border:1px solid var(--border-color);margin-bottom:1.75rem;box-shadow:0 8px 24px rgba(14,74,132,.1);background:#768696}
-        .endorsement-banner-wrap img{width:100%;height:auto;display:block}
-        .endorsement-greeting{font-size:1.1rem;font-weight:700;color:var(--navy-blue);margin-bottom:1.25rem;padding-bottom:.85rem;border-bottom:1px solid var(--border-color)}
-        .endorsement-sign{margin-top:1.75rem;padding-top:1.25rem;border-top:1px solid var(--border-color);text-align:right;font-size:.96rem;color:var(--navy-blue);font-weight:700}
-        .endorsement-sign .sign-sub{display:block;font-size:.85rem;color:var(--point-gray);font-weight:500;margin-top:.25rem;line-height:1.6}
-        .endorsement-sign .sign-navy{color:var(--navy-blue);font-weight:700}
-
-        .hy-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem}
-        .hy-stack{display:flex;flex-direction:column;gap:1.25rem}
-        .hy-card{background:var(--light-gray-bg);border:1px solid var(--border-color);border-left:4px solid var(--navy-blue);padding:1.65rem 1.85rem;border-radius:4px}
-        .hy-card-tag{display:inline-block;font-size:.76rem;font-weight:700;color:var(--point-gray);margin-bottom:.3rem;letter-spacing:.5px}
-        .hy-card h4{color:var(--navy-blue);font-size:1.15rem;font-weight:800;margin-bottom:.55rem}
-        .hy-card p{font-size:.95rem;color:#4A5056;line-height:1.7}
-
-        /* 교과과정 필수/선택 구분 스타일 (필수·선택 모두 회색 네모 통일 및 양쪽 끝 맞춤) */
-        .curr-group{margin-top:.85rem}
-        .curr-group + .curr-group{margin-top:.9rem;padding-top:.85rem;border-top:1px dashed var(--border-color)}
-        .curr-badge{display:inline-block;font-size:.75rem;font-weight:800;padding:.15rem .55rem;border-radius:3px;margin-bottom:.4rem;background:#E9ECEF;color:#495057}
-        .curr-list{font-size:.92rem;color:#3E444A;line-height:1.7;word-break:normal;text-align:justify}
-
-        .hanyang-videos-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
-        .hanyang-video-card{border:1px solid var(--border-color);border-top:3px solid var(--navy-blue);border-radius:6px;overflow:hidden;background:#000;box-shadow:0 6px 18px rgba(14,74,132,.08)}
-
-        /* 푸터 */
-        footer{background:var(--bg-white);border-top:1px solid var(--border-color);padding:2rem 1.5rem;text-align:center;color:var(--point-gray);font-size:.9rem}
-        footer strong{color:var(--navy-blue)}
-
-        @media(max-width:768px){
-            .upper-logo-stage{gap:1.5rem;margin-bottom:1.25rem}
-            .logo-wing img{width:90px;height:90px}
-            .kor-main-title{font-size:1.35rem;letter-spacing:1px}
-            .eng-sub-title{font-size:.72rem;letter-spacing:1px;white-space:normal;padding:0 1rem}
-            nav{flex-direction:column;height:auto;padding:.75rem 1rem;gap:.5rem}
-            .nav-tabs{flex-wrap:wrap;justify-content:center}
-            .nav-tab-btn{padding:.5rem .75rem;font-size:.88rem}
-            .home-hero h1{font-size:1.9rem}
-            .sub-videos-grid,.hanyang-videos-grid,.hy-grid-2{grid-template-columns:1fr}
-            .unit-row{flex-direction:column;align-items:flex-start;gap:.85rem;padding:1.25rem}
-            .unit-head{min-width:auto}
-            .hy-sub-btn{padding:.5rem .95rem;font-size:.86rem}
-            .hy-box{padding:1.5rem 1.25rem}
-        }
+        .unit-desc-block{font-size:.95rem;color:#3E444A;line-height:1.78;word-break:normal;text-align:justify}
+        .sub-unit-divider{margin-top:1.35rem;padding-top:1.35rem;border-top:1px dashed var(--border-color)}
+        .link-group-gap{margin-top:1.15rem}
     </style>
-</head>
-<body>
 
-    <div id="intro-splash">
-        <div class="horizon-curtain top"></div>
-        <div class="horizon-curtain bottom"></div>
-        <div class="splash-content">
-            <div class="upper-logo-stage">
-                <div class="logo-wing left"><img src="hanyang_logo.png" alt="한양대학교 로고"></div>
-                <div class="logo-wing right"><img src="navy_logo.png" alt="대한민국 해군 로고"></div>
+    <div class="section-header"><div class="eng-title">01. Organization</div><h2>편제</h2></div>
+
+    <div class="unit-list">
+
+        <!-- 1. 제1함대사령부 -->
+        <div class="unit-row" style="align-items:flex-start;">
+            <div class="unit-head">
+                <span class="unit-tag">1st Fleet Command</span>
+                <h3>제1함대사령부</h3>
             </div>
-            <div class="lower-title-stage">
-                <div class="kor-main-title">국방전략기술공학과</div>
-                <div class="eng-sub-title">NAVAL STRATEGIC TECHNOLOGY ENGINEERING</div>
+            <div class="unit-body unit-desc-block">
+                제1함대사령부는 대한민국 해군작전사령부 예하의 함대로, <span class="hl-sky">강원특별자치도 동해시</span>에 사령부를 두고 동해 해역 방위와 해상 경계를 담당하는 핵심 부대이다. 제1함대는 북한과 인접한 동해 북방 해역을 비롯하여 울릉도와 독도 주변 해역 등 대한민국 동해 영해와 해양주권을 수호하는 임무를 수행한다. 또한 북한의 해상 침투와 도발에 대비한 경계작전, 해상교통로 보호, 주요 항만 방어 및 해상 재난 대응 등의 임무를 담당하며 동해 안보의 최전선을 지키고 있다. 제1함대의 역사는 1946년 8월 22일 조선해양경비대 묵호기지 창설에서 시작되었으며, 이후 해군의 조직 개편과 전력 증강을 거쳐 현재의 제1함대사령부로 발전하였다. 특히 동해안 해상경비와 독도 방어, <span class="hl-sky">북한 잠수함 및 수상함 위협에 대비한 작전을 수행하며 대한민국 동해 방위의 중추적인 역할을 담당해 왔다.</span> 현재 제1함대는 해상전투단과 여러 전투전대 및 기지 지원부대를 중심으로 구축함, 호위함, 초계함, 고속함 등 다양한 수상함 전력을 운용하고 있다. <span class="hl-sky">동해는 수심이 깊고 해양환경의 변화가 복잡하여 잠수함 탐지와 대잠작전의 중요성이 높은 해역으로, 제1함대는 해상초계와 대잠전 능력 강화에도 주력하고 있다.</span> 평시에는 동해 해상 경계와 해양주권 수호, 연합 및 합동훈련을 수행하며, 유사시에는 적의 해상 도발과 침투를 격퇴하고 동해의 해상 통제권을 확보하는 임무를 맡고 있다. 이처럼 제1함대사령부는 대한민국 동해와 독도를 수호하는 해군의 핵심 전력으로서 국가 안보와 해양주권 보호에 중요한 역할을 담당하고 있다.
             </div>
         </div>
+
+        <!-- 2. 제2함대사령부 -->
+        <div class="unit-row" style="align-items:flex-start;">
+            <div class="unit-head">
+                <span class="unit-tag">2nd Fleet Command</span>
+                <h3>제2함대사령부</h3>
+            </div>
+            <div class="unit-body unit-desc-block">
+                제2함대사령부는 대한민국 해군작전사령부 예하의 함대로, <span class="hl-sky">경기도 평택시</span> 해군기지에 사령부를 두고 서해 해역의 방위와 해상 경계작전을 담당하는 핵심 부대이다. <span class="hl-sky">제2함대는 북한과 인접한 서해 북방한계선(NLL)을 수호하고, 수도권으로 향하는 해상 접근로와 주요 항만을 방어하는 임무를 수행한다.</span> 특히 연평도와 백령도 등 서북도서 주변 해역에서 발생할 수 있는 북한의 해상 도발과 군사적 위협에 대비하여 상시 경계태세를 유지하고 있으며, 해양주권 수호와 해상교통로 보호, 해상 재난 대응 등의 임무도 담당하고 있다. 제2함대의 역사는 1946년 인천기지사령부 창설에서 시작되었으며, 이후 여러 차례의 조직 개편을 거쳐 현재의 제2함대사령부로 발전하였다. 특히 1999년 제1연평해전, 2002년 제2연평해전, 2009년 대청해전 등 서해에서 발생한 주요 해상 전투에서 핵심적인 역할을 수행하였으며, 2010년 천안함 피격 사건을 계기로 서해 해역의 안보 환경과 해상 경계의 중요성을 다시 한번 보여주었다. 이러한 역사적 경험을 바탕으로 제2함대는 서해 해상작전 능력과 신속 대응태세를 지속적으로 발전시켜 왔다. 현재 제2함대는 해상전투단과 전투전대, 기지전대 등 다양한 예하 전력을 바탕으로 서해 해역의 방위 임무를 수행하고 있으며, 구축함과 호위함, 초계함, 유도탄고속함 등 다양한 수상함 전력을 운용한다. 특히 <span class="hl-sky">서해는 조수간만의 차가 크고 섬과 복잡한 해안선이 분포하며 북한 해군과의 근접 접촉 가능성이 높은 해역이기 때문에 신속한 기동과 대응이 가능한 고속함 및 유도탄고속함 전력의 중요성이 크다.</span> 또한 해상 감시체계와 육상 기지 방어체계를 유지하고 유관기관과의 협조를 통해 서해 해역의 안정적인 경계태세를 확보하고 있다. 평시에는 북방한계선 일대의 해상 경계와 해양주권 수호, 전투훈련 및 작전태세 유지에 주력하며, 유사시에는 적의 해상 침투와 도발을 격퇴하고 서해 해역의 해상 통제권을 확보하는 임무를 맡고 있다. 이처럼 제2함대사령부는 대한민국의 수도권과 서해 영해, 서북도서를 수호하는 해군의 최전방 부대로서 국가 안보와 해양주권 보호에 중요한 역할을 담당하고 있다.
+            </div>
+        </div>
+
+        <!-- 3. 제3함대사령부 -->
+        <div class="unit-row" style="align-items:flex-start;">
+            <div class="unit-head">
+                <span class="unit-tag">3rd Fleet Command</span>
+                <h3>제3함대사령부</h3>
+            </div>
+            <div class="unit-body unit-desc-block">
+                제3함대사령부는 대한민국 해군작전사령부 예하의 함대로, <span class="hl-sky">전라남도 영암군</span>에 사령부를 두고 남해 서부 해역과 서남해 해역의 방위를 담당하는 핵심 부대이다. 제3함대는 제주도와 남해안 일대, 서남해 주요 도서 및 항만을 포함하는 해역에서 해상 경계와 해양주권 수호 임무를 수행한다. 특히 <span class="hl-sky">대한해협과 제주도 주변 해역으로 이어지는 주요 해상교통로를 보호하고, 북한을 비롯한 외부 위협과 주변 해역의 다양한 해상 위협에 대비하는 역할을 담당한다.</span> 또한 해상 침투 및 도발 방지, 주요 항만과 해상교통로 방어, 어민 조업 보호, 해상 사고와 재난 발생시 구조작전 등의 임무를 수행하며 대한민국 남방 해역의 안전을 책임지고 있다. 제3함대의 역사는 1946년 9월 24일 조선해양경비대 부산기지 창설에서 시작되었으며, 이후 부산·목포·제주 지역의 경비부를 거쳐 1986년 2월 1일 부산에서 제3함대사령부로 창설되었다. 이후 2007년 11월 15일 전라남도 영암군으로 사령부를 이전하여 현재에 이르고 있다. 제3함대는 대한민국 해군의 초기 해상 방위 역사와 함께 성장해 왔으며, 대한해협해전과 통영상륙작전 등 대한민국 해군의 주요 전투와 작전 역사에서도 중요한 역할을 수행하였다. 현재 <span class="hl-sky">제3함대는 해상전투단과 전투전대, 기지 지원부대 등을 중심으로 구축함, 호위함, 초계함, 고속함 등 다양한 수상함 전력을 운용하고 있다.</span> 남해와 서남해는 수많은 섬과 복잡한 해안선, 좁은 수로 및 주요 항로가 분포한 해역으로, 해상 감시와 신속한 대응 능력이 중요하다. 이에 제3함대는 해군 항공전력 및 해양경찰 등 유관기관과의 협조체계를 바탕으로 해상 감시와 경계작전을 수행하고 있다. 평시에는 남해와 서남해의 해상교통로 보호 및 해양주권 수호에 주력하고, 유사시에는 적의 해상 침투와 도발을 차단하며 남방 해역의 안정적인 해상 통제권을 확보하는 임무를 맡고 있다. 이처럼 제3함대사령부는 대한민국 남해와 서남해를 수호하고 주요 해상교통로의 안전을 보장하는 해군의 핵심 방어 전력이다.
+            </div>
+        </div>
+
+        <!-- 4. 기동함대사령부 -->
+        <div class="unit-row" style="align-items:flex-start;">
+            <div class="unit-head">
+                <span class="unit-tag">Task Fleet Command</span>
+                <h3>기동함대사령부</h3>
+                <div class="unit-links">
+                    <a class="unit-video-link" href="https://youtu.be/3jf5KkfdPAU?si=bYoE_f7GXldcDiLm" target="_blank" rel="noopener noreferrer">▶ 홍보영상 1 ↗</a>
+                    <a class="unit-video-link" href="https://youtu.be/oqeUrBTuRNA?si=2pr6EHR1Ih8RBYOW" target="_blank" rel="noopener noreferrer">▶ 홍보영상 2 ↗</a>
+                </div>
+            </div>
+            <div class="unit-body unit-desc-block">
+                <span class="hl-sky">기동함대사령부는 대한민국 해군작전사령부 예하의 기동전력 운용 부대로, 특정 해역의 연안 방어를 넘어 대한민국의 해양안보와 국가 전략적 이익을 보호하기 위한 원해 작전 및 기동작전을 담당하는 핵심 부대이다. 기동함대는 해상에서 발생할 수 있는 다양한 안보 위협에 신속하게 대응하고, 한반도 주변 해역은 물론 국가의 주요 해상교통로를 보호하는 임무를 수행한다. 특히 북한의 핵·미사일 위협에 대응하기 위한 해상 기반 전략적 억제 능력을 강화하고, 유사시에는 적의 해상 위협에 대응하며 해상작전의 주도권을 확보하는 역할을 담당한다.</span> 또한 해외 해역에서의 국가 해양이익 보호와 국제 해상교통로 안전 확보, 연합 해상작전 및 국제협력 활동에도 중요한 역할을 수행한다. 기동함대사령부는 기존 해군의 기동전력 운용 체계를 발전시키기 위해 2025년 2월 1일 창설되었으며, 기존 제7기동전단을 중심으로 발전한 기동전력 지휘체계를 기반으로 하고 있다. 기존 1·2·3함대가 각각 동해·서해·남해의 책임 해역 방어를 중심으로 임무를 수행한다면, <span class="hl-sky">기동함대는 특정 해역에 국한되지 않고 필요에 따라 다양한 해역에 전력을 전개할 수 있는 기동성과 작전 유연성을 갖추는 데 중점을 두고 있다. 기동함대는 이지스 구축함을 비롯한 대형 구축함 등 첨단 수상함 전력을 중심으로 구성되며, 대공전·대잠전·대함전 등 복합적인 해상작전을 수행할 수 있는 능력을 갖추고 있다. 특히 이지스 전투체계를 활용한 광역 방공 및 탄도미사일 탐지·추적 능력과 장거리 해상작전 능력은 기동함대의 주요 특징이다.</span> 평시에는 국내외 해상훈련과 연합작전, 해상교통로 보호 및 전략적 억제 임무를 수행하며, 유사시에는 주요 해상 위협에 대응하고 대한민국의 해양안보와 전략적 이익을 보장하는 임무를 맡고 있다. 이처럼 기동함대사령부는 대한민국 해군의 원해 작전 능력과 전략적 기동전력을 대표하는 부대로서 해양안보의 범위를 확장하고 국가의 해상 방위 능력을 강화하는 중요한 역할을 담당하고 있다.
+            </div>
+        </div>
+
+        <!-- 5. 잠수함사령부 -->
+        <div class="unit-row" style="align-items:flex-start;">
+            <div class="unit-head">
+                <span class="unit-tag">Submarine Force Command</span>
+                <h3>잠수함사령부</h3>
+                <div class="unit-links">
+                    <a class="unit-video-link" href="https://youtu.be/PFbUST8cB6s?si=ZYSDVRdnHlFK2OxK" target="_blank" rel="noopener noreferrer">▶ 홍보영상 ↗</a>
+                </div>
+            </div>
+            <div class="unit-body unit-desc-block">
+                잠수함사령부는 대한민국 해군작전사령부 예하의 수중전력 운용 부대로, <span class="hl-sky">경상남도 창원시</span>에 사령부를 두고 잠수함작전과 수중전력의 운용 및 전투태세 유지를 담당하는 핵심 부대이다. <span class="hl-sky">잠수함사령부는 수중에서 은밀하게 작전을 수행할 수 있는 잠수함의 특성을 바탕으로 적의 해상 활동을 감시하고, 유사시 적의 주요 해상전력과 전략적 목표에 대응하는 임무를 수행한다.</span> 또한 대한민국의 주요 해상교통로 보호와 해양주권 수호, 적 잠수함 및 수상함 위협에 대한 대응, 해상작전 지원 등의 임무를 담당한다. 잠수함사령부의 역사는 1990년 제57잠수함전대 창설과 1995년 제9잠수함전단 창설을 거쳐 발전하였으며, 대한민국 최초의 잠수함인 장보고함을 1992년 도입하면서 본격적인 잠수함 운용 시대를 열었다. 이후 잠수함 전력의 규모와 작전 능력이 확대됨에 따라 2015년 2월 1일 제9잠수함전단을 모체로 잠수함사령부가 창설되었다. 현재 잠수함사령부는 장보고급 잠수함과 손원일급 잠수함, 도산안창호급 잠수함 등 다양한 잠수함 전력을 운용하며 대한민국 해군의 수중작전 능력을 담당하고 있다. 특히 최신 잠수함 전력은 수중 작전 지속 능력과 탐지·공격 능력, 은밀성을 바탕으로 해상에서 전략적 억제력을 제공하는 중요한 역할을 수행한다. 잠수함사령부는 잠수함의 작전 운용뿐만 아니라 승조원 양성 및 교육훈련, 전투태세 유지, 잠수함 정비와 전술 발전 등 수중전력 운용에 필요한 전반적인 업무를 담당한다. 평시에는 잠수함의 작전 준비태세를 유지하고 다양한 훈련을 통해 전투 능력을 강화하며, 유사시에는 적의 해상전력과 전략적 위협에 대응하여 대한민국의 해상작전을 지원하는 임무를 맡고 있다. 이처럼 잠수함사령부는 대한민국 해군의 수중전력을 총괄하는 핵심 부대로서 국가 해양안보와 전략적 억제력 확보에 중요한 역할을 담당하고 있다.
+            </div>
+        </div>
+
+        <!-- 6. 해군항공사령부 -->
+        <div class="unit-row" style="align-items:flex-start;">
+            <div class="unit-head">
+                <span class="unit-tag">Naval Air Command</span>
+                <h3>해군항공사령부</h3>
+                <div class="unit-links">
+                    <a class="unit-video-link" href="https://youtu.be/n4g4_B-7yoI?si=6NTZ2_jXOzQ9niSl" target="_blank" rel="noopener noreferrer">▶ 홍보영상 1 ↗</a>
+                    <a class="unit-video-link" href="https://youtu.be/KhRndIHOt8M?si=K1gmwlNLbEufOKXO" target="_blank" rel="noopener noreferrer">▶ 홍보영상 2 ↗</a>
+                </div>
+            </div>
+            <div class="unit-body unit-desc-block">
+                해군항공사령부는 대한민국 해군작전사령부 예하의 항공전력 운용 부대로, 해군의 항공작전을 지휘하고 해상작전을 지원하는 핵심 부대이다. <span class="hl-sky">해군항공사령부는 해상초계기와 해상작전헬기 등 다양한 항공전력을 활용하여 광범위한 해역을 감시하고, 적의 수상함과 잠수함 위협을 탐지·식별하는 임무를 수행한다.</span> 또한 해상 정찰과 감시, 대잠작전, 대함작전 지원, 해상 구조 및 탐색작전, 함정과의 연계작전 등 다양한 항공작전 임무를 담당한다. 해군항공전력의 역사는 해군 항공부대의 창설과 항공기 도입 및 운용 능력의 발전을 거치며 성장해 왔으며, 해상작전에서 항공전력의 중요성이 확대됨에 따라 독립적인 지휘체계의 필요성이 대두되었다. 이에 2022년 7월 15일 해군항공사령부령이 제정·시행되었으며, 같은 해 7월 해군항공사령부가 창설되어 해군 항공작전의 지휘와 운용을 담당하게 되었다. 현재 해군항공사령부는 해상초계기와 해상작전헬기 등 항공전력을 운용하며 수상함 및 잠수함 전력과 연계한 입체적인 해상작전 능력을 발전시키고 있다. 특히 해상초계기는 넓은 해역을 장시간 비행하며 수상함과 잠수함을 탐지하고 감시하는 역할을 수행하며, 해상작전헬기는 함정과 연계하여 대잠작전과 해상정찰, 인명 구조 등을 지원한다. 해군항공사령부는 항공전력의 작전 운용뿐만 아니라 조종사와 항공 승무원 양성, 항공기 정비 및 작전태세 유지, 항공작전 관련 교육훈련과 전술 발전 등의 업무도 담당한다. 평시에는 해상 감시와 정찰, 해양주권 수호 및 해상 안전 확보를 위한 작전을 수행하고, <span class="hl-sky">유사시에는 수상함과 잠수함 전력에 항공 지원을 제공하여 해군의 작전 범위와 대응 능력을 확대하는 임무를 맡고 있다.</span> 이처럼 해군항공사령부는 대한민국 해군의 입체적인 해상작전 수행을 가능하게 하는 핵심 전력으로서 해양안보와 해상작전 능력 강화에 중요한 역할을 담당하고 있다.
+            </div>
+        </div>
+
+        <!-- 7. 해군특수전전단 (UDT/SEAL 및 SSU 점선 구분) -->
+        <div class="unit-row" style="align-items:flex-start;">
+            <div class="unit-head">
+                <span class="unit-tag">Naval Special Warfare Flotilla</span>
+                <h3>해군특수전전단</h3>
+                <div class="unit-links">
+                    <a class="unit-video-link" href="https://youtu.be/mbUvRu_ZOd4?si=Agvx95lI5QyTBiZ5" target="_blank" rel="noopener noreferrer">▶ UDT/SEAL 홍보영상 ↗</a>
+                    <a class="unit-video-link" href="https://youtu.be/5oLcVdY4Um0?si=rR9jkNaZCOj2jiyJ" target="_blank" rel="noopener noreferrer">▶ UDT/SEAL 기본과정 극기주 ↗</a>
+                    <a class="unit-video-link link-group-gap" href="https://youtu.be/xU7NLAXHb4g?si=hqWkP34ReZN_XGhO" target="_blank" rel="noopener noreferrer">▶ SSU 홍보영상 ↗</a>
+                    <a class="unit-video-link" href="https://youtu.be/Mvpb790sH3U?si=BQrFwc2lGQrExtG1" target="_blank" rel="noopener noreferrer">▶ SSU 해난구조 기본과정 ↗</a>
+                </div>
+            </div>
+            <div class="unit-body unit-desc-block">
+                <div>
+                    해군특수전전단은 대한민국 해군작전사령부 직할의 최정예 특수작전 부대로, <span class="hl-sky">해상·수중·육상을 아우르는 고도의 특수작전을 수행하는 대한민국 해군의 특수부대이다.</span> 일반적인 해상전투와는 차별화된 은밀성, 기동성, 전문성을 바탕으로 적의 핵심 시설과 전략적 목표에 대한 특수정찰, 해상 침투, 직접타격, 대테러작전 및 폭발물 처리 등의 임무를 수행한다. 해군특수전전단 UDT/SEAL(Underwater Demolition Team / Sea, Air and Land)은 1955년 11월 9일 수중파괴대(UDT) 창설을 시작으로 발전해 왔다. 초기에는 수중 장애물 제거와 해안 정찰, 수중파괴 임무를 중심으로 활동하였으나, 이후 특수전과 대테러 능력을 확대하면서 해상과 육상, 공중을 연계한 다목적 특수작전 부대로 발전하였다. UDT/SEAL은 극한의 체력과 정신력, 전문적인 전술 능력을 바탕으로 어떠한 작전 환경에서도 임무를 완수할 수 있도록 고강도 교육훈련을 실시하며, <span class="hl-sky">대한민국의 특수작전 능력을 대표하는 상징적인 부대로 자리매김하고 있다.</span> 특히 해상 대테러작전과 선박 장악작전, 적 해안 침투 및 특수정찰 등 고도의 숙련도를 요구하는 임무에서 핵심적인 역할을 담당한다. 또한 국내외 연합 특수전 훈련과 실전적인 전술훈련을 통해 작전 능력을 지속적으로 발전시키고 있다. 평시에는 해상 대테러 대응과 주요 시설 보호, 특수작전 대비태세 유지 등의 임무를 수행하며, <span class="hl-sky">유사시에는 적의 핵심 전력과 주요 군사시설을 대상으로 특수작전을 수행하여 전장의 흐름을 바꾸는 전략적 역할을 담당한다.</span> 이처럼 해군특수전전단은 보이지 않는 곳에서 임무를 준비하고, 누구도 쉽게 도달할 수 없는 작전 환경에 투입되는 대한민국 해군의 최정예 특수전 부대로서 강인한 정신력과 전문성을 바탕으로 국가 안보를 수호하고 있다.
+                </div>
+
+                <div class="sub-unit-divider">
+                    해군 해난구조전대(SSU: Ship Salvage Unit)는 대한민국 해군의 전문 해난구조 부대로, <span class="hl-sky">깊고 어두운 바다와 극한의 수중 환경 속에서 인명 구조와 침몰 선박 인양, 수중 탐색 및 해난 사고 대응 임무를 수행하는 해군의 핵심 구조전력</span>이다. SSU는 해상과 수중에서 발생하는 각종 사고와 재난에 대응하기 위해 고도의 잠수 기술과 전문 구조 능력을 갖춘 정예 인력으로 구성되어 있으며, 바다에서 생명을 구하고 해군의 작전 지속 능력을 보장하는 중요한 역할을 담당한다. 해난구조전대의 역사는 1950년대 해군의 잠수 및 구조 능력 발전과 함께 시작되었으며, 이후 전문적인 잠수 인력과 구조 장비를 확보하고 조직을 발전시키면서 대한민국 해군의 대표적인 해난구조 부대로 성장하였다. SSU는 일반적인 잠수 활동을 넘어 심해잠수와 수중 탐색, 침몰 함정 및 선박 구조, 수중 장애물 제거, 수중 용접과 절단, 해저 시설물 점검 등 고도의 전문성을 요구하는 임무를 수행한다. 특히 수중 시야가 제한되고 수압과 수온이 극한에 이르는 심해 환경에서도 임무를 수행할 수 있도록 강도 높은 체력훈련과 잠수 교육, 구조훈련을 실시한다. 또한 해상에서 발생하는 대형 재난과 선박 침몰 사고, 항공기 추락 및 수중 실종 사고 등 다양한 상황에 투입되어 인명 수색과 구조 활동을 지원한다. 2010년 천안함 피격 사건 당시에도 해난구조전대는 구조 및 탐색작전에 투입되어 위험한 해상 환경 속에서 구조 임무를 수행했으며, 대한민국 해군의 전문 구조 역량과 사명감을 보여주었다. 평시에는 심해잠수 능력 유지와 구조장비 운용, 해난사고 대응훈련을 실시하고, 유사시에는 해상 재난 현장에 신속히 투입되어 인명 구조와 수중 구조작전을 수행하는 임무를 맡고 있다. 이처럼 <span class="hl-sky">해군 해난구조전대는 극한의 수중 환경에서도 생명을 구하기 위해 임무를 수행하는 대한민국 해군의 정예 구조부대로서, 강인한 정신력과 전문적인 잠수 능력을 바탕으로 바다에서 국민의 생명과 안전을 지키는 중요한 역할을 담당하고 있다.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. 대한민국 해병대 -->
+        <div class="unit-row" style="align-items:flex-start;">
+            <div class="unit-head">
+                <span class="unit-tag">Republic of Korea Marine Corps</span>
+                <h3>대한민국 해병대</h3>
+                <div class="unit-links">
+                    <a class="unit-video-link" href="https://youtu.be/ZSD6pXe24Kc?si=jrI6bsNw8QXOZgGh" target="_blank" rel="noopener noreferrer">▶ 해병대 홍보영상 1 ↗</a>
+                    <a class="unit-video-link link-group-gap" href="https://youtu.be/p2ccKCNwpiU?si=M0UDJgpCu8E1HQ3m" target="_blank" rel="noopener noreferrer">▶ 상륙작전 홍보영상 1 ↗</a>
+                    <a class="unit-video-link" href="https://youtu.be/BTL8dDCdOYU?si=V4zItwi-gx4-K68v" target="_blank" rel="noopener noreferrer">▶ 상륙작전 홍보영상 2 ↗</a>
+                </div>
+            </div>
+            <div class="unit-body unit-desc-block">
+                대한민국 해병대는 <span class="hl-sky">대한민국 해군 소속의 국가 전략 기동군</span>으로, 상륙작전과 도서 방어, 신속대응작전 및 지상 전투 임무를 수행하는 핵심 전투부대이다. 해병대는 해상과 육상을 연결하는 상륙작전 능력을 바탕으로 적 해안에 병력을 투입하고 주요 지역을 확보하는 임무를 수행하며, 국가의 주요 도서와 해안 지역을 방어하는 역할도 담당한다. 특히 서북도서와 제주도를 비롯한 주요 도서 지역의 방어태세를 유지하고, 북한의 도발과 침투 위협에 대비한 경계작전 및 신속대응 임무를 수행한다. 또한 국가적 재난과 긴급 상황 발생 시 대민 지원과 재난 복구 활동에도 참여하며 국민의 생명과 재산을 보호하는 역할을 담당하고 있다. 대한민국 해병대의 역사는 1949년 4월 15일 경상남도 진해에서 해병대가 창설되면서 시작되었다. 창설 초기에는 소규모 병력으로 출발하였으나 6·25전쟁을 거치며 전투 경험과 작전 능력을 축적하였고, 통영상륙작전과 인천상륙작전 등 주요 전투에서 활약하며 대한민국 해병대의 전통을 확립하였다. 이후 도서 방어와 상륙작전 능력 강화를 중심으로 조직과 전력을 발전시켰으며, 현재는 해병대사령부를 중심으로 제1사단과 제2사단, 제6여단 및 제9여단 등 다양한 작전부대를 운용하고 있다. 해병대는 상륙돌격장갑차와 상륙함정, 항공전력, 포병 및 기동전력 등 다양한 전력을 활용하여 해상과 육상을 연계한 작전을 수행할 수 있는 능력을 갖추고 있다. 특히 <span class="hl-sky">상륙작전은 해군 함정과 항공전력의 지원을 바탕으로 해안에 병력을 투입하고 작전지역을 확보하는 복합적인 군사작전으로, 해병대의 핵심 임무이자 고유한 작전 능력이다.</span> 또한 해병대는 강도 높은 교육훈련과 실전적인 전술훈련을 통해 어떠한 환경에서도 임무를 수행할 수 있는 전투태세를 유지하고 있다. 평시에는 주요 도서와 해안 지역의 방어, 상륙작전 훈련 및 경계작전을 수행하고, 유사시에는 적의 해상 침투와 도발을 격퇴하며 상륙작전과 지상작전을 통해 군사적 목표를 달성하는 임무를 맡고 있다. 이처럼 대한민국 해병대는 상륙작전과 도서 방어를 핵심으로 하는 국가 전략 기동군으로서 대한민국의 영토와 국민을 보호하고 국가 안보를 뒷받침하는 중요한 역할을 담당하고 있다.
+            </div>
+        </div>
+
     </div>
-
-    <nav>
-        <button class="logo" onclick="openTab('home')">
-            <img src="hanyang_logo.png" alt="한양대학교">
-            <img src="navy_logo.png" alt="대한민국 해군">
-            <span>R.O.K. NAVY</span>
-        </button>
-        <ul class="nav-tabs">
-            <li><button class="nav-tab-btn active" data-tab="home" onclick="openTab('home')">홈</button></li>
-            <li><button class="nav-tab-btn" data-tab="organization" onclick="openTab('organization')">편제</button></li>
-            <li><button class="nav-tab-btn" data-tab="forces" onclick="openTab('forces')">전력</button></li>
-            <li><button class="nav-tab-btn" data-tab="news" onclick="openTab('news')">뉴스</button></li>
-            <li><button class="nav-tab-btn hanyang-tab" data-tab="hanyang" onclick="openTab('hanyang')">한양해군</button></li>
-        </ul>
-    </nav>
-
-    <main>
-        <!-- [총괄 담당: 홈] -->
-        <section id="tab-home" class="tab-panel active">
-            <div class="home-hero">
-                <div class="sub-badge anim-step-1">HANYANG UNIVERSITY</div>
-                <h1 class="anim-step-2">The BEST Engine of Korea NAVY</h1>
-                <p class="anim-step-3">승리 앞에 겸손하며 패배를 모르는 애국한양 필승해군!</p>
-                <div class="hero-video-wrap anim-step-4">
-                    <div class="yt-facade" data-video-id="fRqTrPHP9nE" data-title="대한민국 해군 메인 영상"></div>
-                </div>
-                <div class="sub-videos-grid anim-step-5">
-                    <div class="sub-video-card"><div class="yt-facade" data-video-id="ORiJx_mLj1Q" data-title="대한민국 해군 대표 영상"></div></div>
-                    <div class="sub-video-card"><div class="yt-facade" data-video-id="UGYBxcU4W2w" data-title="대한민국 해군 소개 영상"></div></div>
-                </div>
-            </div>
-            <div class="content-container" style="padding-top:1rem">
-                <div class="home-quick-nav anim-step-5">
-                    <a class="quick-card" href="https://portal.hanyang.ac.kr/sso/lgin.do" target="_blank" rel="noopener noreferrer"><span>01. HY-IN PORTAL</span><strong>한양인 포털 ↗</strong></a>
-                    <a class="quick-card" href="https://learning.hanyang.ac.kr/accounts/1/external_tools/128?launch_type=global_navigation" target="_blank" rel="noopener noreferrer"><span>02. HANYANG LMS</span><strong>한양대학교 LMS ↗</strong></a>
-                    <a class="quick-card" href="https://www.youtube.com/@ROKNavy" target="_blank" rel="noopener noreferrer"><span>03. R.O.K. NAVY YOUTUBE</span><strong>대한민국 해군 유튜브 ↗</strong></a>
-                </div>
-            </div>
-        </section>
-
-        <!-- [팀원 3명 담당 구역: 외부 파일에서 자동 로드] -->
-        <section id="tab-organization" class="tab-panel"></section>
-        <section id="tab-forces" class="tab-panel"></section>
-        <section id="tab-news" class="tab-panel"></section>
-
-        <!-- [총괄 담당: 한양해군] -->
-        <section id="tab-hanyang" class="tab-panel">
-            <div class="content-container">
-                <div class="section-header"><div class="eng-title">04. Hanyang University - Naval Strategic Technology Engineering</div><h2>한양대학교 해군 계약학과</h2></div>
-
-                <div class="hanyang-sub-nav">
-                    <button class="hy-sub-btn active" data-sub="intro" onclick="openHanyangSubTab('intro',this)">학과소개</button>
-                    <button class="hy-sub-btn" data-sub="curriculum" onclick="openHanyangSubTab('curriculum',this)">교과과정</button>
-                    <button class="hy-sub-btn" data-sub="endorsement" onclick="openHanyangSubTab('endorsement',this)">추천의글</button>
-                    <button class="hy-sub-btn" data-sub="faculty" onclick="openHanyangSubTab('faculty',this)">교수소개</button>
-                    <button class="hy-sub-btn" data-sub="promo" onclick="openHanyangSubTab('promo',this)">홍보영상</button>
-                </div>
-
-                <!-- 1. 학과소개 -->
-                <div id="hy-sub-intro" class="sub-tab-panel active">
-                    <div class="hy-box">
-                        <span class="hy-box-tag">Department Introduction</span>
-                        <h3>한양대학교 국방전략기술공학과</h3>
-                        <p>한양대학교 국방전략기술공학과는 미래 해군이 필요로 하는 <strong>Smart Navy 구현의 핵심인재</strong>를 양성하기 위해 해군과 한양대학교의 협력으로 설립되었습니다.</p>
-                        <p><strong>산학협력 전국 1위</strong>인 한양대 ERICA에서 4차 산업혁명기술 기반 창의적 문제 해결형 최정예 해군장교 양성을 목표로 각 분야별 최고의 교수진들이 구성된 최고의 커리큘럼을 통하여 인문학적 소양 및 소통능력, 공학과 사이언스를 접목한 융합적 배양기술, 기초 체력단련 및 국제 스포츠 교육 등 엘리트 해군장교 양성을 위한 최고의 교육과정을 제공하고 있습니다.</p>
-                        <p>이러한 전인교육을 통해 한양대학교 국방전략기술공학과는 여러분들의 소통능력·직무능력·리더십을 함양하고, 융합적 마인드를 갖춘 차세대 리더로 양성시킬 것입니다. 한양대학교의 슬로건은 <strong>"Engine of Korea"</strong> 입니다. 국방전략기술공학과에 입학하는 여러분들은 최고의 교수진, 최고의 시설, 최고의 교육과정을 통해 Smart Navy를 구현할 한국해군의 원동력(Engine of Korean Navy)으로 성장할 것입니다.</p>
-                    </div>
-                </div>
-
-                <!-- 2. 교과과정 -->
-                <div id="hy-sub-curriculum" class="sub-tab-panel">
-                    <div class="hy-grid-2">
-                        <div class="hy-card">
-                            <h4>1학년 - 공학 기초 및 해양안보</h4>
-                            <div class="curr-group">
-                                <span class="curr-badge">필수</span>
-                                <div class="curr-list">IC-PBL과비전설계, 미분적분학1, 인공지능기초탐색, 일반물리학1, 일반물리학실험1, 창의적프로그래밍기초와실습, <span class="hl-sky">해전사</span>, 미분적분학2, 수학적사고와인공지능, 아카데믹글쓰기, 오픈소스개발과활용, 일반물리학2, 일반물리학실험2, <span class="hl-sky">해양학개론</span></div>
-                            </div>
-                            <div class="curr-group">
-                                <span class="curr-badge">선택</span>
-                                <div class="curr-list"><span class="hl-sky">기초체력단련</span>, 선형대수</div>
-                            </div>
-                        </div>
-                        <div class="hy-card">
-                            <h4>2학년 - 공학 심화 및 해양전략</h4>
-                            <div class="curr-group">
-                                <span class="curr-badge">필수</span>
-                                <div class="curr-list">공업수학1, 인공지능심화프로그래밍, 학술영어, <span class="hl-sky">해양전략과국가발전</span>, <span class="hl-sky">항해학개론</span></div>
-                            </div>
-                            <div class="curr-group">
-                                <span class="curr-badge">선택</span>
-                                <div class="curr-list"><span class="hl-sky">골프기초이론및실기1</span>, 전자회로이론및실습, <span class="hl-sky">전투체력단련</span>, 계량경영, 공업수학2, 수중음향공학, <span class="hl-sky">전투태권도</span></div>
-                            </div>
-                        </div>
-                        <div class="hy-card">
-                            <h4>3학년 - 무기체계 및 국방기술</h4>
-                            <div class="curr-group">
-                                <span class="curr-badge">필수</span>
-                                <div class="curr-list"><span class="hl-sky">해군무기체계공학</span>, <span class="hl-sky">군대윤리</span></div>
-                            </div>
-                            <div class="curr-group">
-                                <span class="curr-badge">선택</span>
-                                <div class="curr-list">수중음향프로그래밍, <span class="hl-sky">전투수영</span>, 컴퓨터네트워크, <span class="hl-sky">해양항만공학</span>, 확률과통계, VR/AR프로그래밍, 디지털신호처리, 음향탐지및신호처리, 표적유도제어</div>
-                            </div>
-                        </div>
-                        <div class="hy-card">
-                            <h4>4학년 - 대잠체계 및 리더십</h4>
-                            <div class="curr-group">
-                                <span class="curr-badge">필수</span>
-                                <div class="curr-list"><span class="hl-sky">대잠전체계해양환경공학</span>, <span class="hl-sky">대잠전체계음향탐지공학</span>, <span class="hl-sky">리더십</span></div>
-                            </div>
-                            <div class="curr-group">
-                                <span class="curr-badge">선택</span>
-                                <div class="curr-list">소나시스템공학, <span class="hl-sky">정보보안과블록체인</span>, <span class="hl-sky">프로젝트관리</span>, <span class="hl-sky">해군해양학</span>, <span class="hl-sky">국방해양기상학</span>, <span class="hl-sky">글로벌커뮤니케이션전략</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 3. 추천의글 -->
-                <div id="hy-sub-endorsement" class="sub-tab-panel">
-                    <div class="endorsement-banner-wrap">
-                        <img src="이국종.png" alt="이국종 교수 추천의 글 배너">
-                    </div>
-                    <div class="hy-box">
-                        <div class="endorsement-greeting">미래를 준비하는 학생 여러분에게.</div>
-                        <p>누구나 대한민국의 역사를 뒤돌아본다면, 한반도에서 살아온 우리 민족의 삶이 쉽지 않았다는 것을 알게 됩니다. 그리고 이러한 어려움들은 그저 수천 년간을 전해져 내려온 과거의 이야기들이 아닌, 현재 국제사회의 역학관계와 같은 거대한 집단과 집단 사이의 난제들일 뿐 아니라, 사회를 구성하는 개인들의 삶 속에까지도 계속 영향을 미치고 있는 소규모 조직들 간에도 상존하고 있는, 우리들 인생의 한 부분이기도 합니다.</p>
-                        <p>대한민국 해군은 이러한 어려움으로 가득 찬 대한민국의 역사와 개인의 삶 속에서도 뚜렷한 방향성을 제시하고 있습니다. 이순신 제독께서는 중앙정부의 지원 없이도 스스로 전투함을 건조하고 수병을 양성하면서도 백성들과 자급자족의 전시경제체제를 만들어 가며 기나긴 전쟁을 승리로 이끌어 내었습니다. 근대 해군의 설립자들은 해방 이후의 혼란기에도 독립운동가이자 유럽 선진국가의 상선사관이었던 손원일 선장을 중심으로 스스로 모여 대한민국 해군의 모체인 해방병단(海防兵團)을 창설하고 미군의 중고 전투함을 사재를 털어 구매, 정비하여 북한의 남침을 막아내었습니다.</p>
-                        <p>한국 뿐 아니라 세계 역사를 살펴보아도, 통치권력이나 기타 주변으로부터의 지원이 없는 상황에서도 자생적으로 떨쳐 일어나서 <strong>정의를 향해 자신의 모든 것을 걸고 나아가는 사람들을 찾아보기는 매우 보기 어렵습니다. 대한민국 해군의 가치는 그 무엇보다도, 이러한 어려운 길을 걸어가기를 두려워하지 않으며, 난관을 헤쳐 나감으로서 정의를 실현해 나가는 자신의 임무를 묵묵히 해 나가는</strong> 바다 사람들에 의해서 수백 년이 넘게 축적되어 온 본질에 있습니다.</p>
-                        <p>해군은 외부에서 보이는 모습 보다는 내부적으로 훨씬 방대한 조직이며, 세계로 뻗어 나아가는 빠르게 발전하는 기관입니다. 해군의 전문 업무 영역은 통상적인 수상함정에서 이루어지는 임무 뿐 아니라 해군항공대와 잠수함 전단과 같이 공중과 심해작전영역을 총괄하면서도 UDT/SEAL 및 SSU로 이루어진 해군특수전전단과 해병대에서 이루어지는 보병특수전 임무에 대한 해양 투사 및 구조/구급임무까지도 포함됩니다.</p>
-                        <p>또한 각 업무 영역 내에서 파생되는 세부 임무를 위해서는 항해학과 기계공학 및 군사학 등의 잘 알려진 해양관련 전공뿐 아니라 물리학, 화학, 생물학 및 지구과학을 포함하는 방대한 영역의 기초과학 관련 전공과 함께, 항공운항과 조종전공, 잠수학과 같은 특수업무분야 및 법무와 회계, 기타 의학관련 세부전공자 까지도 해군 조직 내에서 함께 일하며 내부적으로 육성시키기도 하는 독특한 특징을 가지고 있습니다. 즉, 육상에서 볼 수 있는 대부분의 세부전공 및 직업군들이, 독특한 환경적 특성을 가지는 해양공간에서 매우 다양하게 발현되게 됩니다.</p>
-                        <p>따라서 해군에서 양성된 인재들은 해군의 발전을 통한 국방력 강화에 기여했을 뿐 아니라, 대한민국의 발전을 견인해 온 기계공업과 조선산업, 화학 및 정유, 철강산업과 같은 중후장대 산업군에서 헌신하여 왔을 뿐 아니라, 해운업과 수산업을 바탕으로 하는 각종 파생영역들과 해사법 전공영역 및 많은 행정 세부전공은 국제기구와 정부기관에서 핵심인력군을 형성하고 있습니다. 바로 이러한 넓은 업무 영역의 특성을 가지는 <strong>해군간부를 훌륭하게 육성해 내기 위해서 국내 최고의 명문대학인 한양대학교의 폭넓은 학문적 기반과 뛰어난 대학 기반 시설을 바탕으로 본 학과가 운영되고 있습니다.</strong></p>
-                        <p>저는 바다를 배경으로 살아가는 사람들이 자신의 인생을 훌륭히 살아내어 가는 과정을 오랜 기간 보아왔으며 저 또한 바로 그 핵심인 해군의 일원인 것을 자랑스럽게 생각합니다. 대한민국의 미래는 바다에 있고, 해군에는 한 개인에게도 수많은 기회가 있음은 누구나 알고 있는 상식일 수도 있습니다. 그러나 해군의 일원이 됨으로서 얻을 수 있는 더 큰 소득은, 인생의 어려움과도 같은 파도를 정면으로 깨고 나아가, 난관을 돌파하며 더 넓은 세계로 나아가는 것을 경험해 가면서 자연스럽게 체득되는 삶의 핵심 가치들일 것입니다.</p>
-                        <p>이렇게 오래된 전설과도 같은 해군의 삶은 "은빛 갈매기"와 같은 오래된 여러 해군 군가에도 잘 녹아들어 있으며 나이든 예비역 해군 수병들조차도 잊어버리는 경우가 없습니다. 저는 여러분 모두가 인생의 본격적인 긴 여정을 향해 나아가는 이 순간, 이순신 제독과 손원일 제독이 항해를 했던 바로 그 해군의 바다를 향해, 훌륭한 모항이 되어줄 커다란 한양대학교에서, 함께 닻을 올리고 대양을 향해 나아가는 멋진 미래를 펼쳐 나아가시길 진심으로 기원합니다.</p>
-                        <div class="endorsement-sign">
-                            이국종
-                            <span class="sign-sub">의학박사 · 외과전문의 · 해군예비역<br><span class="sign-navy">명예 해군대령 · 국군대전병원장</span></span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 4. 교수소개 -->
-                <div id="hy-sub-faculty" class="sub-tab-panel">
-                    <div class="hy-stack">
-                        <div class="hy-card">
-                            <span class="hy-card-tag">FACULTY</span>
-                            <h4>교수진</h4>
-                            <p>한양대학교 공과대학 및 국방과학·해양전략 분야의 최고 수준 전임교원진과 풍부한 함정 지휘 및 작전·전력기획 경험을 갖춘 해군 출신 초빙교수진이 체계적인 학문 지도와 실전적 군사학 교육을 담당합니다.</p>
-                        </div>
-                        <div class="hy-card">
-                            <span class="hy-card-tag">DEFENSE INDUSTRY ADVISORY BOARD</span>
-                            <h4>Defense IAB</h4>
-                            <p>국내외 주요 방위산업체, 국방연구기관 및 해군 전력·기술 분야 핵심 전문가들로 구성된 국방산학자문위원회(Defense IAB)가 첨단 해양무기체계 연구 협력, 현장 실무 멘토링 및 산학연계 교육과정을 자문·지원합니다.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 5. 홍보영상 -->
-                <div id="hy-sub-promo" class="sub-tab-panel">
-                    <div class="hanyang-videos-grid">
-                        <div class="hanyang-video-card"><div class="yt-facade" data-video-id="qCJjdYokINs" data-title="한양해군 영상 1"></div></div>
-                        <div class="hanyang-video-card"><div class="yt-facade" data-video-id="qMJ2kb3W2UA" data-title="한양해군 영상 2"></div></div>
-                        <div class="hanyang-video-card"><div class="yt-facade" data-video-id="pQKTFU6FIWo" data-title="한양해군 영상 3"></div></div>
-                        <div class="hanyang-video-card"><div class="yt-facade" data-video-id="jiGTq_o7VmQ" data-title="한양해군 영상 4"></div></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <p><strong>Hanyang University</strong> | Naval Strategic Technology Engineering 26</p>
-    </footer>
-
-    <script>
-        /* 외부 파트 파일(organization.html, forces.html, news.html) 로드 */
-        async function loadPartFiles() {
-            const parts = [
-                { id: 'tab-organization', file: 'organization.html' },
-                { id: 'tab-forces', file: 'forces.html' },
-                { id: 'tab-news', file: 'news.html' }
-            ];
-            await Promise.all(parts.map(async ({ id, file }) => {
-                try {
-                    const res = await fetch(file);
-                    if (res.ok) document.getElementById(id).innerHTML = await res.text();
-                } catch (err) {
-                    console.error(`${file} 로드 실패:`, err);
-                }
-            }));
-        }
-
-        function sendYTCommand(iframe, func, args = []) {
-            if (!iframe || !iframe.contentWindow) return;
-            iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func, args }), '*');
-        }
-
-        function registerYTListening(iframe) {
-            if (!iframe || !iframe.contentWindow) return;
-            iframe.contentWindow.postMessage(JSON.stringify({ event: 'listening', id: iframe.id }), '*');
-        }
-
-        function renderFacadeThumbnail(box) {
-            const id = box.dataset.videoId;
-            const title = box.dataset.title || 'YouTube Video';
-            box.innerHTML = '';
-
-            const img = document.createElement('img');
-            img.src = `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
-            img.alt = title;
-            img.onload = () => { if (img.naturalWidth <= 120) img.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`; };
-            img.onerror = () => { if (!img.src.includes('hqdefault')) img.src = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`; };
-
-            const btn = document.createElement('div');
-            btn.className = 'yt-play-btn';
-            box.append(img, btn);
-        }
-
-        function stopAllVideosExcept(activeIframe = null) {
-            document.querySelectorAll('.yt-facade').forEach(box => {
-                const iframe = box.querySelector('iframe');
-                if (iframe && iframe !== activeIframe) {
-                    sendYTCommand(iframe, 'pauseVideo');
-                    renderFacadeThumbnail(box);
-                }
-            });
-        }
-
-        window.addEventListener('message', e => {
-            if (!e.origin.includes('youtube.com')) return;
-            try {
-                const d = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
-                const state = d.event === 'onStateChange' ? d.info : d.info?.playerState;
-                if (state === 1) {
-                    document.querySelectorAll('.yt-player').forEach(f => {
-                        if (f.contentWindow === e.source) stopAllVideosExcept(f);
-                    });
-                }
-            } catch {}
-        });
-
-        function initYouTubePlayers() {
-            setInterval(() => {
-                document.querySelectorAll('.yt-player').forEach(registerYTListening);
-            }, 1500);
-
-            document.querySelectorAll('.yt-facade').forEach((box, i) => {
-                renderFacadeThumbnail(box);
-
-                box.onclick = () => {
-                    if (box.querySelector('iframe')) return;
-                    const id = box.dataset.videoId;
-                    const title = box.dataset.title || 'YouTube Video';
-
-                    const f = document.createElement('iframe');
-                    f.className = 'yt-player';
-                    f.id = `yt-player-${i}`;
-                    f.src = `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&enablejsapi=1`;
-                    f.title = title;
-                    f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-                    f.allowFullscreen = true;
-
-                    stopAllVideosExcept(f);
-
-                    f.onload = () => {
-                        registerYTListening(f);
-                        setTimeout(() => registerYTListening(f), 500);
-                        setTimeout(() => sendYTCommand(f, 'playVideo'), 5100);
-                    };
-
-                    box.innerHTML = '';
-                    box.appendChild(f);
-                };
-            });
-        }
-
-        function openTab(name) {
-            stopAllVideosExcept();
-            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('tab-' + name).classList.add('active');
-            document.querySelector(`.nav-tab-btn[data-tab="${name}"]`)?.classList.add('active');
-            scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function openHanyangSubTab(subName, btn) {
-            stopAllVideosExcept();
-            document.querySelectorAll('#tab-hanyang .sub-tab-panel').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('#tab-hanyang .hy-sub-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('hy-sub-' + subName).classList.add('active');
-            btn.classList.add('active');
-        }
-
-        function openForcesSubTab(subName, btn) {
-            document.querySelectorAll('#tab-forces .sub-tab-panel').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('#tab-forces .hy-sub-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('forces-sub-' + subName).classList.add('active');
-            btn.classList.add('active');
-        }
-
-        function filterFleet(cat, btn) {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            if (btn) btn.classList.add('active');
-            document.querySelectorAll('#fleetList .fleet-card').forEach(item => {
-                item.style.display = (item.dataset.category === cat) ? '' : 'none';
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', async () => {
-            await loadPartFiles();
-            initYouTubePlayers();
-        });
-    </script>
-</body>
-</html>
+</div>

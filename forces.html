@@ -276,6 +276,7 @@
     <button class="hy-sub-btn active" onclick="document.querySelectorAll('#tab-forces .sub-tab-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('#tab-forces .hy-sub-btn').forEach(b=>b.classList.remove('active'));document.getElementById('forces-sub-main').classList.add('active');this.classList.add('active');">주요전력</button>
     <button class="hy-sub-btn" onclick="document.querySelectorAll('#tab-forces .sub-tab-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('#tab-forces .hy-sub-btn').forEach(b=>b.classList.remove('active'));document.getElementById('forces-sub-nk-compare').classList.add('active');this.classList.add('active');">북한 함정과 비교</button>
     <button class="hy-sub-btn" onclick="document.querySelectorAll('#tab-forces .sub-tab-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('#tab-forces .hy-sub-btn').forEach(b=>b.classList.remove('active'));document.getElementById('forces-sub-simulator').classList.add('active');this.classList.add('active');">교전 시뮬레이터</button>
+    <button class="hy-sub-btn" onclick="document.querySelectorAll('#tab-forces .sub-tab-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('#tab-forces .hy-sub-btn').forEach(b=>b.classList.remove('active'));document.getElementById('forces-sub-vr').classList.add('active');this.classList.add('active');">VR체험</button>
 </div>
 
     <!-- [서브 탭 1: 주요전력] -->
@@ -688,15 +689,6 @@
         <div id="fleetEmptyMsg" style="display:none;text-align:center;padding:2.5rem 1rem;color:var(--point-gray);font-size:.95rem;background:var(--light-gray-bg);border-radius:8px;margin-bottom:1.5rem;">
             일치하는 함정 또는 무기체계가 없습니다. 다른 키워드로 검색해 보세요.
         </div>
-
-        <div class="vr-banner">
-            <div class="vr-banner-text">
-                <span class="vr-badge">360° VR EXPERIENCE</span>
-                <h3>대한민국 해군 이지스함 VR로 살펴보기</h3>
-                <p>해군 공식 VR 콘텐츠를 통해 이지스 구축함의 함교, 전투지휘실 및 주요 구역을 360도 가상현실로 생생하게 체험해 보세요.</p>
-            </div>
-            <a href="https://www.navy.mil.kr/mbshome/mbs/navy/vr/vr/index.html" target="_blank" rel="noopener noreferrer" class="btn-primary">이지스함 VR 체험하기 ↗</a>
-        </div>
     </div>
 
     <!-- [서브 탭 2: 북한 함정과 비교 (한눈에 비교되는 테이블 UI)] -->
@@ -913,6 +905,18 @@
 
                 <div id="simResultBox" style="display:none;background:#0B1F3A;color:#F8FAFC;border-radius:8px;padding:1.1rem 1.25rem;font-size:.88rem;line-height:1.65;"></div>
             </div>
+        </div>
+    </div>
+
+    <!-- [서브 탭 4: VR체험] -->
+    <div id="forces-sub-vr" class="sub-tab-panel">
+        <div class="vr-banner">
+            <div class="vr-banner-text">
+                <span class="vr-badge">360° VR EXPERIENCE</span>
+                <h3>대한민국 해군 이지스함 VR로 살펴보기</h3>
+                <p>해군 공식 VR 콘텐츠를 통해 이지스 구축함의 함교, 전투지휘실 및 주요 구역을 360도 가상현실로 생생하게 체험해 보세요.</p>
+            </div>
+            <a href="https://www.navy.mil.kr/mbshome/mbs/navy/vr/vr/index.html" target="_blank" rel="noopener noreferrer" class="btn-primary">이지스함 VR 체험하기 ↗</a>
         </div>
     </div>
 

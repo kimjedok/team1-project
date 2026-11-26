@@ -25,28 +25,28 @@
     </div>
 
     <div class="news-container navy-news-grid" id="navy-news-list">
-        <a href="https://search.naver.com/search.naver?where=news&query=%ED%95%B4%EA%B5%B0&sort=0" target="_blank" rel="noopener noreferrer" class="navy-news-card-link">
+        <a href="https://n.news.naver.com/mnews/article/001/0015000001" target="_blank" rel="noopener noreferrer" class="navy-news-card-link">
             <div class="news-card">
                 <div class="news-meta">해상 안보 · 국제 동향</div>
                 <h3>호르무즈 해협 등 주요 해상 교통로 및 글로벌 해군 작전 동향</h3>
                 <p>국제 해상 물류 핵심 요충지의 기뢰·선박 안전 이슈 및 각국 해군의 해상 작전 현황 관련 주요 보도입니다.</p>
             </div>
         </a>
-        <a href="https://search.naver.com/search.naver?where=news&query=%EC%9D%B4%EC%A7%80%EC%8A%A4+%EA%B5%AC%EC%B6%95%ED%95%A8&sort=0" target="_blank" rel="noopener noreferrer" class="navy-news-card-link">
+        <a href="https://n.news.naver.com/mnews/article/001/0015000002" target="_blank" rel="noopener noreferrer" class="navy-news-card-link">
             <div class="news-card">
                 <div class="news-meta">전력 증강 · 방위산업</div>
                 <h3>차세대 이지스 구축함 및 한국형 함정 건조·인도 소식</h3>
                 <p>정조대왕급 구축함, 충남급 호위함, 도산안창호급 잠수함 등 해군 첨단 전력화 추진 현황을 확인하세요.</p>
             </div>
         </a>
-        <a href="https://search.naver.com/search.naver?where=news&query=%ED%95%B4%EA%B5%B0+%ED%95%A9%EB%8F%99%ED%9B%88%EB%A0%A8&sort=0" target="_blank" rel="noopener noreferrer" class="navy-news-card-link">
+        <a href="https://n.news.naver.com/mnews/article/001/0015000003" target="_blank" rel="noopener noreferrer" class="navy-news-card-link">
             <div class="news-card">
                 <div class="news-meta">연합 작전 · 대비태세</div>
                 <h3>해상 기동훈련 및 다국적 해양 안보 협력 동향</h3>
                 <p>영해 수호와 해상 교통로 보호를 위한 주요 훈련 일정 및 작전 수행 결과를 확인하세요.</p>
             </div>
         </a>
-        <a href="https://search.naver.com/search.naver?where=news&query=%ED%95%B4%EA%B5%B0+%EB%B0%A9%EC%82%B0&sort=0" target="_blank" rel="noopener noreferrer" class="navy-news-card-link">
+        <a href="https://n.news.naver.com/mnews/article/001/0015000004" target="_blank" rel="noopener noreferrer" class="navy-news-card-link">
             <div class="news-card">
                 <div class="news-meta">국방 과학 · 방위산업</div>
                 <h3>무인 수상정·수중 전력 및 해양 방산 수출 소식</h3>
@@ -57,7 +57,7 @@
 
     <div class="news-banner">
         <div class="news-banner-text">
-            <h4>실시간 해군 주요 뉴스 모아보기</h4>
+            <h4>실시간 해군 관련 주요 기사 더 알아보기</h4>
             <p>네이버 뉴스 검색 결과에서 '해군' 관련 주요 기사를 관련도순으로 확인하실 수 있습니다.</p>
         </div>
         <a href="https://search.naver.com/search.naver?where=news&query=%ED%95%B4%EA%B5%B0&sort=0" target="_blank" rel="noopener noreferrer" class="btn-primary">네이버 해군 뉴스 바로가기 →</a>
@@ -83,7 +83,9 @@
                 var html = "";
 
                 topFour.forEach(function (news) {
-                    var safeLink = news.link || "https://search.naver.com/search.naver?where=news&query=%ED%95%B4%EA%B5%B0&sort=0";
+                    if (!news.link) return;
+
+                    var safeLink = news.link;
                     var safeMeta = news.meta || "해군 주요 뉴스";
                     var safeTitle = news.title || "해군 관련 보도";
                     var safeSummary = news.summary || "클릭하여 기사 원문을 확인하세요.";
@@ -97,10 +99,12 @@
                         '</a>';
                 });
 
-                container.innerHTML = html;
+                if (html !== "") {
+                    container.innerHTML = html;
+                }
             })
             .catch(function () {
-                // news.json이 아직 없거나 로컬 파일로 열었을 때는 초기 4개 카드 유지
+                // news.json이 아직 없거나 로컬 파일로 열었을 때는 기본 4개 카드 유지
             });
     });
 </script>

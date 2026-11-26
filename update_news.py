@@ -1,69 +1,63 @@
 import urllib.request
 import urllib.parse
-import xml.etree.ElementTree as ET
 import json
 import re
+from html import unescape
 from datetime import datetime, timezone, timedelta
 
-def get_real_url(google_rss_url, title):
-    # 1. Google News 리다이렉트 URL에서 실제 언론사 주소 추적 시도
-    try:
-        req = urllib.request.Request(
-            google_rss_url,
-            headers={
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-            }
-        )
-        with urllib.request.urlopen(req, timeout=10) as resp:
-            final_url = resp.geturl()
-            if "news.google.com" not in final_url:
-                return final_url
-            html = resp.read().decode("utf-8", errors="ignore")
-            # HTML 내 실제 원문 링크 추출
-            match = re.search(r'data-n-au="([^"]+)"', html)
-            if match:
-                return match.group(1)
-    except Exception:
-        pass
+# 네이버 뉴스 검색: '해군' 키워드 + 관련도순(sort=0)
+query = urllib.parse.quote("해군")
+url = f"https://search.naver.com/search.naver?where=news&query={query}&sort=0"
 
-    # 2. 추적 실패 시 해당 기사 정확한 제목으로 네이버 뉴스 최상단 검색 결과 연결
-    encoded_title = urllib.parse.quote(title)
-    return f"https://search.naver.com/search.naver?where=news&query={encoded_title}&sort=0"
+req = urllib.request.Request(
+    url,
+    headers={
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+        "Accept-Language": "ko-KR,ko;q=0.9"
+    }
+)
 
-# 구글 뉴스 RSS('해군' 검색 결과)
-url = "https://news.google.com/rss/search?q=%ED%95%B4%EA%B5%B0&hl=ko&gl=KR&ceid=KR:ko"
-req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-xml_data = urllib.request.urlopen(req, timeout=15).read()
-
-root = ET.fromstring(xml_data)
-items = root.findall("./channel/item")[:4]
+html = urllib.request.urlopen(req, timeout=15).read().decode("utf-8", errors="ignore")
 
 kst = timezone(timedelta(hours=9))
+today_str = datetime.now(kst).strftime("%Y.%m.%d")
+
+def clean_html(text):
+    text = re.sub(r"<[^>]+>", "", text)
+    return re.sub(r"\s+", " ", unescape(text)).strip()
+
 news_list = []
+seen_titles = set()
 
-for item in items:
-    raw_title = item.findtext("title", default="해군 관련 주요 보도")
-    raw_link = item.findtext("link", default="")
-    raw_date = item.findtext("pubDate", default="")
-    source = item.findtext("source", default="언론사")
+# 네이버 뉴스 검색 결과에서 개별 뉴스 영역(bx) 단위로 추출
+blocks = re.findall(r'<li class="bx"[^>]*>(.*?)</li>\s*(?=<li class="bx"|</ul>)', html, re.S)
 
-    clean_title = re.sub(r"\s-\s[^-]+$", "", raw_title).strip()
-    real_link = get_real_url(raw_link, clean_title) if raw_link else f"https://search.naver.com/search.naver?where=news&query={urllib.parse.quote(clean_title)}"
+for block in blocks:
+    # 기사 제목과 링크 추출 (news_tit 클래스)
+    tit_match = re.search(r'<a[^>]*class="[^"]*news_tit[^"]*"[^>]*href="([^"]+)"[^>]*>(.*?)</a>', block, re.S)
+    if not tit_match:
+        continue
 
-    formatted_date = datetime.now(kst).strftime("%Y.%m.%d")
-    if raw_date:
-        try:
-            dt = datetime.strptime(raw_date, "%a, %d %b %Y %H:%M:%S %Z").replace(tzinfo=timezone.utc).astimezone(kst)
-            formatted_date = dt.strftime("%Y.%m.%d")
-        except ValueError:
-            pass
+    link = unescape(tit_match.group(1)).strip()
+    title = clean_html(tit_match.group(2))
 
-    news_list.append({
-        "meta": f"{source} · {formatted_date}",
-        "title": clean_title,
-        "link": real_link,
-        "summary": "클릭하여 해당 기사 원문을 확인하세요."
-    })
+    if not title or title in seen_titles:
+        continue
+    seen_titles.add(title)
 
-with open("news.json", "w", encoding="utf-8") as f:
-    json.dump(news_list, f, ensure_ascii=False, indent=2)
+    # 네이버 뉴스 인링크(n.news.naver.com)가 있으면 우선 사용
+    naver_link_match = re.search(r'href="(https://n\.news\.naver\.com/mnews/article/[^"]+)"', block)
+    if naver_link_match:
+        link = unescape(naver_link_match.group(1)).strip()
+
+    # 언론사명 추출
+    press_match = re.search(r'class="[^"]*info press[^"]*"[^>]*>(.*?)</a>', block, re.S)
+    press = clean_html(press_match.group(1)).replace("언론사 선정", "").strip() if press_match else "주요 언론사"
+
+    # 본문 요약문 추출
+    dsc_match = re.search(r'class="[^"]*news_dsc[^"]*"[^>]*>(.*?)</div>', block, re.S)
+    summary = clean_html(dsc_match.group(1)) if dsc_match else "클릭하여 기사 원문을 확인하세요."
+    if len(summary) > 95:
+        summary = summary[:92] + "..."
+
+    news_list
